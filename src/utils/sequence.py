@@ -4,7 +4,7 @@ from typing import Optional
 import numpy as np
 from numpy import ndarray
 
-from actm_algorithms.src.exceptions.genes import GenesError
+from src.exceptions.genes import GenesError
 
 
 @dataclass()

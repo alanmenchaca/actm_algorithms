@@ -3,13 +3,13 @@ from typing import Callable
 
 from tqdm import tqdm
 
-from utils.sequence import Sequence
-from utils.fitness_calculator import FitnessCalculator
 from mutation.backpack_mutator import BackpackCrosserMutator
 from mutation.chemical_reactions import ChemicalReactionsMutator
 from mutation.simple_mutator import SimpleMutator
 from mutation.simulated_annealing import SimulatedAnnealing
 from utils.file_manager import TxtFileReader
+from utils.fitness_calculator import FitnessCalculator
+from utils.sequence import Sequence
 
 
 @dataclass(repr=False)

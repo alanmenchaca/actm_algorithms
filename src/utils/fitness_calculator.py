@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 import numpy as np
 from numpy import ndarray
 
-from actm_algorithms.src.exceptions.sequence import SequenceError
+from src.exceptions.sequence import SequenceError
 from utils.sequence import Sequence
 
 

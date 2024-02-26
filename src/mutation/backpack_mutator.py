@@ -2,9 +2,8 @@ from dataclasses import dataclass, field
 from typing import Iterator
 
 import numpy as np
-from numpy import ndarray
-
 from exceptions.sequence import SequenceError
+from numpy import ndarray
 from utils.sequence import Sequence
 
 
@@ -39,18 +38,26 @@ class BackpackCrosserMutator:
         self._assign_new_genes_arr_to_seqA_and_seqB(new_seqA_arr, new_seqB_arr)
 
     def _generate_new_seqA_and_seqB_arr_with_swapped_genes(self) -> tuple[ndarray, ndarray]:
-        seqA_cross_point, seqB_cross_point = self._get_seqA_and_seqB_cross_point()
+        cross_point: int = np.random.randint(1, len(self._seqA.get_indexes_of_genes()) - 1)
+        first_arr_seq_a_cp, second_arr_seq_a_cp = self._get_seq_cross_points(self._seqA, cross_point)
+        first_arr_seq_b_cp, second_arr_seq_b_cp = self._get_seq_cross_points(self._seqB, cross_point)
+
         new_first_arr: ndarray = np.concatenate(
-            (self._seqA.genes_as_arr[:seqA_cross_point], self._seqB.genes_as_arr[seqB_cross_point:]))
+            (self._seqA.genes_as_arr[:first_arr_seq_a_cp],
+             self._seqB.genes_as_arr[first_arr_seq_b_cp:])
+        )
         new_second_arr: ndarray = np.concatenate(
-            (self._seqB.genes_as_arr[:-seqB_cross_point], self._seqA.genes_as_arr[-seqA_cross_point:]))
+            (self._seqB.genes_as_arr[:second_arr_seq_b_cp],
+             self._seqA.genes_as_arr[second_arr_seq_a_cp:])
+        )
+
         return new_first_arr, new_second_arr
 
-    def _get_seqA_and_seqB_cross_point(self) -> tuple[int, int]:
-        cross_point: int = np.random.randint(len(self._seqA.get_indexes_of_genes()) - 1)
-        seqA_cross_point: int = self._seqA.get_indexes_of_genes()[cross_point]
-        seqB_cross_point: int = self._seqB.get_indexes_of_genes()[cross_point]
-        return seqA_cross_point, seqB_cross_point
+    @staticmethod
+    def _get_seq_cross_points(seq: Sequence, cross_point: int) -> tuple[int, int]:
+        arr_first_cp: int = seq.get_indexes_of_genes()[cross_point]
+        arr_second_cp: int = seq.get_indexes_of_genes()[-cross_point]
+        return arr_first_cp, arr_second_cp
 
     def _assign_new_genes_arr_to_seqA_and_seqB(self, new_seqA_arr: ndarray,
                                                new_seqB_arr: ndarray) -> None:

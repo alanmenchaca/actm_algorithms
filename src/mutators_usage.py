@@ -1,59 +1,25 @@
+from mutation.backpack_mutator import BackpackCrosserMutator
+from mutation.chemical_reactions import ChemicalReactionsMutator
 from mutation.simple_mutator import SimpleMutator
+from mutation.simulated_annealing import SimulatedAnnealing
+from utils.file_manager import TxtFileReader
+from utils.fitness_calculator import FitnessCalculator
 from utils.sequence import Sequence
 
-# Download necessary
-# Install necessary packages
-# Import all packages
-# Load seqA and seqB
-
-
-# Simple Mutator implementation
-# ------ simple mutator docu ------
-# Simple Mutator
-# < Simple mutator explanation >
-
-# params:
-#   - num_populations: number of populations to generate (default: 1000).
-#   - num_sequences: number of sequences of each population (default: 100).
-#   - rand_indexes_len: tuple with the range of the random indexes [min, max], default: [1, 6].
-#   - gaps_lengths_arr: tuple with the range of the gaps lengths [min, max], default: [1, 3].
-
-num_populations: int = 1000
-num_sequences: int = 100
-rand_indexes_len: tuple = (4, 8)
-gaps_lengths_arr: tuple = (1, 2)
-
 seqA: Sequence = Sequence("AABBCCDD")
-seqB: Sequence = Sequence("AABBCCDD")
+seqB: Sequence = Sequence("EEFFGGHH")
 
-# sm.rand_indexes_len = (4, 8)
-# sm.gaps_lengths_arr = (1, 2)
 sm: SimpleMutator = SimpleMutator()
-sm_mutated_seqs: list[Sequence] = sm.generate_mutated_population(seqA, 5)
+bcm: BackpackCrosserMutator = BackpackCrosserMutator()
+crm: ChemicalReactionsMutator = ChemicalReactionsMutator()
+sa: SimulatedAnnealing = SimulatedAnnealing()
 
-print("\nSimpleMutator:")
-for seq in sm_mutated_seqs:
-    print(seq.genes)
+fc: FitnessCalculator = FitnessCalculator()
+file_reader: TxtFileReader = TxtFileReader()
 
-# Backpack Mutator implementation
-# ------ backpack mutator docu ------
+sm.rand_indexes_len = (4, 8)
+sm.gaps_lengths_arr = (1, 2)
+sm_mutated_seqs: list[Sequence] = sm.generate_mutated_population(seqA, 100)
+bcm_mutated_seqs: list[Sequence] = bcm.generate_mutated_population(sm_mutated_seqs)
 
-# seqA: Sequence = Sequence("AABBCCDD")
-# seqB: Sequence = Sequence("EEFFGGHH")
-#
-# bcm: BackpackCrosserMutator = BackpackCrosserMutator()
-# bcm_mutated_seqs: list[Sequence] = bcm.generate_mutated_population([seqA])
-#
-# print("BackpackCrosserMutator:")
-# for seq in bcm_mutated_seqs:
-#     print(seq)
-
-# print("--------------------------------------------------------")
-
-# seqA: Sequence = Sequence("AABBCCDD")
-# seqB: Sequence = Sequence("EEFFGGHH")
-#
-# crm: ChemicalReactionsMutator = ChemicalReactionsMutator()
-# crm_mutated_seqs: list[Sequence] = crm.collide_molecules([seqA])
-
-# print("--------------------------------------------------------")
+crm_mutated_seqs: list[Sequence] = crm.collide_molecules(bcm_mutated_seqs)
