@@ -22,4 +22,4 @@ sm.gaps_lengths_arr = (1, 2)
 sm_mutated_seqs: list[Sequence] = sm.generate_mutated_population(seqA, 100)
 bcm_mutated_seqs: list[Sequence] = bcm.generate_mutated_population(sm_mutated_seqs)
 
-crm_mutated_seqs: list[Sequence] = crm.collide_molecules(bcm_mutated_seqs)
+# crm_mutated_seqs: list[Sequence] = crm.collide_molecules(bcm_mutated_seqs)
