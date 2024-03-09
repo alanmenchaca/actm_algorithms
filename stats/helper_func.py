@@ -17,8 +17,8 @@ fitness_calculator: FitnessCalculator = FitnessCalculator()
 
 
 def load_seqA_and_seqB() -> tuple[Sequence, Sequence]:
-    seqA: Sequence = Sequence(TxtFileReader.read('../src/genes/env_HIV1H.txt'))
-    seqB: Sequence = Sequence(TxtFileReader.read('../src/genes/env_HIV1S.txt'))
+    seqA: Sequence = Sequence(TxtFileReader.read('../src/sequences/env_HIV1H.txt'))
+    seqB: Sequence = Sequence(TxtFileReader.read('../src/sequences/env_HIV1S.txt'))
     return seqA, seqB
 
 
@@ -76,16 +76,16 @@ def append_best_fitness_from_populations_to_list(seqA_population: list[Sequence]
 def get_best_sequences_from_populations(seqA_population: list[Sequence],
                                         seqB_population: list[Sequence]) -> tuple[Sequence, Sequence]:
     for seqA_to_compare in seqA_population:
-        fitness_calculator.set_seqA(seqA_to_compare)
+        fitness_calculator.set_main_seq(seqA_to_compare)
         fitness_calculator.compute_fitness(seqB_population)
 
-    best_sequences = fitness_calculator.get_best_sequences_of_each_populations()
+    best_sequences = fitness_calculator.get_best_seq_of_each_population()
     return best_sequences['seqA'], best_sequences['seqB']
 
 
 def reset_fitness_calculator_params() -> None:
-    fitness_calculator._best_sequence = None
-    fitness_calculator._best_sequences = None
+    fitness_calculator._best_seq = None
+    fitness_calculator._best_seqs = None
 
 
 def round_to_nearest_multiple(value: int, base: int = 100) -> int:

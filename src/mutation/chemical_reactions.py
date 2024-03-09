@@ -2,9 +2,9 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from utils.fitness_calculator import FitnessCalculator
 from mutation.backpack_mutator import BackpackCrosserMutator
 from mutation.simple_mutator import SimpleMutator
+from utils.fitness_calculator import FitnessCalculator
 from utils.sequence import Sequence, Molecule
 
 
@@ -38,30 +38,30 @@ class ChemicalReactionsMutator:
     * En consecuencia, la Energía Cinética (KE) de una molécula simboliza su
     capacidad de escapar de un mínimo local.
     """
-    _simple_mutator: SimpleMutator = field(default=None)
-    _crosser_mutator: BackpackCrosserMutator = field(default=None)
-    _fitness_calculator: FitnessCalculator = field(default=None)
+    _sm: SimpleMutator = field(default=None)
+    _bcm: BackpackCrosserMutator = field(default=None)
+    _fc: FitnessCalculator = field(default=None)
 
     _main_seq: Sequence = field(default=None)
-    _seqA: Sequence = field(default=None)
-    _seqB: Sequence = field(default=None)
-    _sequences: list[Sequence] = field(default=None)
+    _seq1: Sequence = field(default=None)
+    _seq2: Sequence = field(default=None)
+    _seqs: list[Sequence] = field(default=None)
 
     _buffer: float = field(default=0.01)
 
     def __post_init__(self):
-        self._simple_mutator = SimpleMutator()
-        self._crosser_mutator = BackpackCrosserMutator()
-        self._fitness_calculator = FitnessCalculator()
+        self._sm = SimpleMutator()
+        self._bcm = BackpackCrosserMutator()
+        self._fc = FitnessCalculator()
 
-    def collide_molecules(self, seq_to_compare: Sequence, sequences: list[Sequence],
+    def collide_molecules(self, seq_to_compare: Sequence, seqs: list[Sequence],
                           num_collisions: int = 100) -> None:
         for i in range(num_collisions):
             self._main_seq = seq_to_compare
-            self._sequences = sequences
+            self._seqs = seqs
 
             # choose two random sequences
-            self._seqA, self._seqB = np.random.choice(sequences, 2, replace=False)
+            self._seq1, self._seq2 = np.random.choice(seqs, 2, replace=False)
 
             # select a random collision type
             collision_type: int = np.random.randint(0, 4)
@@ -70,22 +70,22 @@ class ChemicalReactionsMutator:
     def _do_collision(self, collision_type: int) -> None:
         if collision_type == 0:
             _, self._buffer = self.ineffective_collision_against_the_wall(self._main_seq,
-                                                                          self._seqA, self._buffer)
+                                                                          self._seq1, self._buffer)
         elif collision_type == 1:
-            generated_SeqA, generated_seqB, success, self._buffer = self \
-                .decomposition(self._main_seq, self._seqA, self._buffer)
+            generated_seq1, generated_seq2, success, self._buffer = self \
+                .decomposition(self._main_seq, self._seq1, self._buffer)
             if success:
-                self._sequences.remove(self._seqA)
-                self._sequences.append(generated_SeqA)
-                self._sequences.append(generated_seqB)
+                self._seqs.remove(self._seq1)
+                self._seqs.append(generated_seq1)
+                self._seqs.append(generated_seq2)
         elif collision_type == 2:
-            _, _ = self.ineffective_intermolecular_collision(self._main_seq, self._seqA, self._seqB)
+            _, _ = self.ineffective_intermolecular_collision(self._main_seq, self._seq1, self._seq2)
         else:
-            generated_sequence, success = self.synthesis(self._main_seq, self._seqA, self._seqB)
+            generated_seq, success = self.synthesis(self._main_seq, self._seq1, self._seq2)
             if success:
-                self._sequences.remove(self._seqA)
-                self._sequences.remove(self._seqB)
-                self._sequences.append(generated_sequence)
+                self._seqs.remove(self._seq1)
+                self._seqs.remove(self._seq2)
+                self._seqs.append(generated_seq)
 
     # Input: A molecule M with its profile and central energy buffer.
     def ineffective_collision_against_the_wall(self, seq_to_compare: Sequence, seq: Sequence,
@@ -105,7 +105,7 @@ class ChemicalReactionsMutator:
         # new sequence with a new molecular structure
         # Obtain w' = Neighbor(w)
         new_seq_mutated: Sequence = seq.__copy__()
-        self._simple_mutator.mutate_sequences_genes([new_seq_mutated])
+        self._sm.mutate_seqs_genes([new_seq_mutated])
 
         # Calculate PE_w'
         new_potential_energy: float = self._compute_potential_energy(seq_to_compare, new_seq_mutated)
@@ -155,7 +155,7 @@ class ChemicalReactionsMutator:
         new_first_seq_mutated: Sequence = new_first_seq.__copy__()
         new_second_seq_mutated: Sequence = new_second_seq.__copy__()
 
-        self._simple_mutator.mutate_sequences_genes([new_first_seq_mutated, new_second_seq_mutated])
+        self._sm.mutate_seqs_genes([new_first_seq_mutated, new_second_seq_mutated])
 
         # Calculate PE_w1' and PE_w2'
         new_first_potential_energy: float = self._compute_potential_energy(seq_to_compare, new_first_seq_mutated)
@@ -222,7 +222,7 @@ class ChemicalReactionsMutator:
 
     # Input: Molecule, M_1, M_2 with their profiles.
     def ineffective_intermolecular_collision(self, seq_to_compare: Sequence,
-                                             seqA: Sequence, seqB: Sequence) -> tuple[Sequence, Sequence]:
+                                             seq1: Sequence, seq2: Sequence) -> tuple[Sequence, Sequence]:
         """
             ~ Colisión Intermolecular Ineficaz ~
         Una colisión intermolecular ineficaz describe la situación en la que dos
@@ -232,17 +232,17 @@ class ChemicalReactionsMutator:
             ineficaz en la pared, pero esta reacción elemental involucra más de una molécula
             y no se obtiene Energía cinética del búfer central.
         """
-        first_molecule: Molecule = seqA.to_molecule_instance()
-        second_molecule: Molecule = seqB.to_molecule_instance()
+        first_molecule: Molecule = seq1.to_molecule_instance()
+        second_molecule: Molecule = seq2.to_molecule_instance()
 
         # Obtain w_1' = Neighbor(w_1) and w_2' = Neighbor(w_2)
-        new_first_seq: Sequence = seqA.__copy__()
-        new_second_seq: Sequence = seqB.__copy__()
+        new_first_seq: Sequence = seq1.__copy__()
+        new_second_seq: Sequence = seq2.__copy__()
 
         new_first_molecule: Molecule = new_first_seq.to_molecule_instance()
         new_second_molecule: Molecule = new_second_seq.to_molecule_instance()
 
-        self._simple_mutator.mutate_sequences_genes([new_first_seq, new_second_seq])
+        self._sm.mutate_seqs_genes([new_first_seq, new_second_seq])
 
         # Calculate PE_w1' and PE_w2'
         new_first_potential_energy: float = self._compute_potential_energy(seq_to_compare, new_first_seq)
@@ -264,35 +264,35 @@ class ChemicalReactionsMutator:
             # Update the profile of M_1 by w_1 = w_1', PE_w1 = PE_w1'
             # and KE_w1 = KE_w1', and the profile of M_2 by w_2 = w_2',
             # PE_w2 = PE_w2' and KE_w2 = KE_w2'.
-            seqA.genes = new_first_seq.genes
-            seqA.fitness = new_first_potential_energy
+            seq1.genes = new_first_seq.genes
+            seq1.fitness = new_first_potential_energy
             new_first_molecule.potential_energy = new_first_potential_energy
             new_first_molecule.kinetic_energy = new_first_kinetic_energy
 
-            seqB.genes = new_second_seq.genes
-            seqB.fitness = new_second_potential_energy
+            seq2.genes = new_second_seq.genes
+            seq2.fitness = new_second_potential_energy
             new_second_molecule.potential_energy = new_second_potential_energy
             new_second_molecule.kinetic_energy = new_second_kinetic_energy
 
         # Output M_1 and M_2
-        return seqA, seqB
+        return seq1, seq2
 
     # Input: molecules M1, M2, with their profiles.
-    def synthesis(self, seq_to_compare: Sequence, seqA: Sequence, seqB: Sequence) -> tuple[Sequence, bool]:
+    def synthesis(self, seq_to_compare: Sequence, seq1: Sequence, seq2: Sequence) -> tuple[Sequence, bool]:
         """
             ~ Síntesis ~
         Una síntesis representa más de una molécula (suponga dos moléculas)
          que chocan y se combinan.
         """
-        first_molecule: Molecule = seqA.to_molecule_instance()
-        second_molecule: Molecule = seqB.to_molecule_instance()
+        first_molecule: Molecule = seq1.to_molecule_instance()
+        second_molecule: Molecule = seq2.to_molecule_instance()
 
         # Obtain w' from w_1 and w_2
-        new_first_sequence: Sequence = seqA.__copy__()
-        new_second_sequence: Sequence = seqB.__copy__()
+        new_first_seq: Sequence = seq1.__copy__()
+        new_second_seq: Sequence = seq2.__copy__()
 
-        new_mutated_seq, _ = self._crosser_mutator \
-            .generate_mutated_population([new_first_sequence, new_second_sequence])
+        new_mutated_seq, _ = self._bcm \
+            .generate_mutated_population([new_first_seq, new_second_seq])
 
         # Calculate PE_w'
         new_potential_energy: float = self._compute_potential_energy(seq_to_compare, new_mutated_seq)
@@ -322,11 +322,11 @@ class ChemicalReactionsMutator:
         return new_mutated_seq, success
 
     def _compute_potential_energy(self, seq_to_compare: Sequence, seq: Sequence) -> float:
-        self._fitness_calculator.set_seqA(seq_to_compare)
-        self._fitness_calculator.set_seqB(seq)
+        self._fc.set_main_seq(seq_to_compare)
+        self._fc.set_secondary_seq(seq)
 
-        potential_energy: float = self._fitness_calculator \
-            .compute_fitness_between_seqA_and_seqB()
+        potential_energy: float = self._fc \
+            .compute_fitness_between_main_and_secondary_seqs()
         seq.fitness = potential_energy
 
         return potential_energy

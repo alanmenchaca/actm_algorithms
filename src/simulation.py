@@ -35,11 +35,11 @@ class Simulation:
         self._num_sequences_per_population: int = int(input("Ingresa el número de secuencias por población: "))
 
         self._initialize_main_and_secondary_sequences()
-        self._fitness.set_seqA(self.seqA)
+        self._fitness.set_main_seq(self.seqA)
 
     def _initialize_main_and_secondary_sequences(self) -> None:
-        seqA: str = TxtFileReader.read('./genes/env_HIV1H.txt')
-        seqB: str = TxtFileReader.read('./genes/env_HIV1S.txt')
+        seqA: str = TxtFileReader.read('sequences/env_HIV1H.txt')
+        seqB: str = TxtFileReader.read('sequences/env_HIV1S.txt')
 
         self.seqA: Sequence = Sequence(genes=seqA)
         self.seqB: Sequence = Sequence(genes=seqB)
@@ -56,7 +56,7 @@ class Simulation:
                 generate_population_func()
 
                 for sequence in self._seqA_list:
-                    self._fitness.set_seqA(sequence)
+                    self._fitness.set_main_seq(sequence)
                     self._fitness.compute_fitness(self._seqB_list)
 
         self.run_chemical_reactions_mutator()
@@ -68,7 +68,7 @@ class Simulation:
         print(f"Segunda secuencia: {self.seqB}")
 
         best_sequences: dict[str, Sequence] = self._fitness \
-            .get_best_sequences_of_each_populations()
+            .get_best_seq_of_each_population()
         print(f"\nMejor secuencia (env_HIV1H): {best_sequences['seqA']}")
         print(f"Mejor secuencia (env_HIV1S): {best_sequences['seqB']}")
 
@@ -78,9 +78,9 @@ class Simulation:
 
     def _generate_population_from_seqA_and_seqB_using_simple_mutator(self) -> None:
         self._seqA_list = self._simple_mutator.generate_mutated_population(
-            sequence=self.seqA, num_sequences=self._num_sequences_per_population)
+            seq=self.seqA, num_seqs=self._num_sequences_per_population)
         self._seqB_list = self._simple_mutator.generate_mutated_population(
-            sequence=self.seqB, num_sequences=self._num_sequences_per_population)
+            seq=self.seqB, num_seqs=self._num_sequences_per_population)
 
     def _generate_population_from_seqA_and_seqB_using_backpack_crosser_mutator(self) -> None:
         self._seqA_list = self._crosser_mutator. \
