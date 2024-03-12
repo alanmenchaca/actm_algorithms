@@ -86,3 +86,10 @@ class FitnessCalculator:
 
     def get_best_seqs(self) -> dict[str, Sequence]:
         return self._best_seqs
+
+    def clear_best_seqs(self) -> None:
+        self._best_seqs = {}
+        self._best_seq = None
+        self._main_seq = None
+        self._secondary_seq = None
+        self._main_seq_temp = None
