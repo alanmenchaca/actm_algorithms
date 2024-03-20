@@ -86,4 +86,4 @@ class Sequence:
     def __repr__(self) -> str:
         return f'Sequence(genes: {self.genes[:10]}...,' \
                f' genes_len: {self._genes_len},' \
-               f' fitness: {self._fitness}),'
+               f' fitness: {self._fitness})'
