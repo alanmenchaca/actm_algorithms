@@ -1,76 +1,79 @@
-from dataclasses import dataclass, field
-from typing import Iterator
+from dataclasses import dataclass
+from typing import ClassVar
 
 import numpy as np
 from numpy import ndarray
 
-from exceptions.sequence import SeqsValidator as sv
 from utils.sequence import Sequence
 
 
 @dataclass(init=False, repr=False)
 class BackpackCrosserMutator:
-    _population: list[Sequence] = field(default=list)
-    _seq1: Sequence = field(default=Sequence)
-    _seq2: Sequence = field(default=Sequence)
+    _seqs_mutated: ClassVar[list[Sequence]]
+    _seq1: ClassVar[Sequence]
+    _seq2: ClassVar[Sequence]
 
-    def generate_mutated_population(self, sequences: list[Sequence]) -> list[Sequence]:
-        sv.validate_seqs(sequences)
-        self._append_seq1_to_seqs_if_seqs_len_is_odd(sequences)
-        seqs_iter: Iterator[Sequence] = iter(sequences)
-        self._population: list[Sequence] = []
-        idx: range = range(1, len(sequences), 2)
+    @classmethod
+    def generate_mutated_seqs(cls, seqs: list[Sequence]) -> list[Sequence]:
+        cls._seqs_mutated: list[Sequence] = []
+        is_seqs_len_odd: bool = (len(seqs) % 2) != 0
 
-        for i, seq in zip(idx, seqs_iter):
-            self._seq1: Sequence = seq.__copy__()
-            self._seq2: Sequence = next(seqs_iter).__copy__()
+        seqs.append(seqs[0]) if is_seqs_len_odd else None
+        cls._mutate_seqs(seqs)
+        seqs.pop() if is_seqs_len_odd else None
+        cls._seqs_mutated.pop() if is_seqs_len_odd else None
 
-            self._append_backpack_mutator_id_to_seqs(i)
-            self._swap_genes_between_seq1_and_seq2()
-            self._append_new_seqs_to_population()
+        return cls._seqs_mutated
 
-        return self._population
+    @classmethod
+    def _mutate_seqs(cls, seqs: list[Sequence]) -> None:
+        for i in range(1, len(seqs), 2):
+            cls._seq1 = seqs[i - 1].__copy__()
+            cls._seq2 = seqs[i].__copy__()
+            cls._mutate_seq1_and_seq2(i)
 
-    @staticmethod
-    def _append_seq1_to_seqs_if_seqs_len_is_odd(seqs: list[Sequence]) -> None:
-        if len(seqs) % 2 != 0:
-            seqs.append(seqs[0])
+    @classmethod
+    def _mutate_seq1_and_seq2(cls, idx: int) -> None:
+        cls._append_backpack_mutator_id_to_current_seqs_id(idx)
+        cls._swap_genes_between_current_seqs()
+        cls._append_current_seqs_to_seqs_mutated_list()
 
-    def _append_backpack_mutator_id_to_seqs(self, idx: int) -> None:
-        self._seq1.seq_id += f"[bcm_{idx}] "
-        self._seq2.seq_id += f"[bcm_{(idx + 1)}] "
+    @classmethod
+    def _append_backpack_mutator_id_to_current_seqs_id(cls, idx: int) -> None:
+        cls._seq1.seq_id += f"[bcm_{idx}] "
+        cls._seq2.seq_id += f"[bcm_{(idx + 1)}] "
 
-    def _swap_genes_between_seq1_and_seq2(self) -> None:
-        new_seq1_arr, new_seq2_arr = self._generate_new_seq1_and_seq2_arr_with_swapped_genes()
-        self._assign_new_genes_arr_to_seq1_and_seq2(new_seq1_arr, new_seq2_arr)
+    @classmethod
+    def _swap_genes_between_current_seqs(cls) -> None:
+        new_seq1_arr, new_seq2_arr = \
+            cls._generate_new_seq1_and_seq2_arr_with_swapped_genes()
+        cls._seq1.genes_as_arr = new_seq1_arr
+        cls._seq2.genes_as_arr = new_seq2_arr
 
-    def _generate_new_seq1_and_seq2_arr_with_swapped_genes(self) -> tuple[ndarray, ndarray]:
-        cross_point: int = np.random.randint(1, len(self._seq1.get_indexes_of_genes()) - 1)
-        first_arr_seq_a_cp, second_arr_seq_a_cp = self._get_seq_cross_points(self._seq1, cross_point)
-        first_arr_seq_b_cp, second_arr_seq_b_cp = self._get_seq_cross_points(self._seq2, cross_point)
+    @classmethod
+    def _generate_new_seq1_and_seq2_arr_with_swapped_genes(cls) -> tuple[ndarray, ndarray]:
+        cross_point: int = np.random.randint(1, len(cls._seq1.get_indexes_of_genes()) - 1)
+        seq1_arr1_cp, seq1_arr2_cp = cls._get_seq_cross_points(cls._seq1, cross_point)
+        seq2_arr1_cp, seq2_arr2_cp = cls._get_seq_cross_points(cls._seq2, cross_point)
 
-        new_first_arr: ndarray = np.concatenate(
-            (self._seq1.genes_as_arr[:first_arr_seq_a_cp],
-             self._seq2.genes_as_arr[first_arr_seq_b_cp:])
+        new_seq1_arr: ndarray = np.concatenate(
+            (cls._seq1.genes_as_arr[:seq1_arr1_cp],
+             cls._seq2.genes_as_arr[seq2_arr1_cp:])
         )
-        new_second_arr: ndarray = np.concatenate(
-            (self._seq2.genes_as_arr[:second_arr_seq_b_cp],
-             self._seq1.genes_as_arr[second_arr_seq_a_cp:])
+        new_seq2_arr: ndarray = np.concatenate(
+            (cls._seq2.genes_as_arr[:seq2_arr2_cp],
+             cls._seq1.genes_as_arr[seq1_arr2_cp:])
         )
 
-        return new_first_arr, new_second_arr
+        return new_seq1_arr, new_seq2_arr
 
-    @staticmethod
-    def _get_seq_cross_points(seq: Sequence, cross_point: int) -> tuple[int, int]:
-        arr_first_cp: int = int(seq.get_indexes_of_genes()[cross_point])
-        arr_second_cp: int = int(seq.get_indexes_of_genes()[-cross_point])
-        return arr_first_cp, arr_second_cp
+    @classmethod
+    def _get_seq_cross_points(cls, seq: Sequence, cross_point: int) -> tuple[int, int]:
+        arr_cp1: int = int(seq.get_indexes_of_genes()[cross_point])
+        arr_cp2: int = int(seq.get_indexes_of_genes()[-cross_point])
+        return arr_cp1, arr_cp2
 
-    def _assign_new_genes_arr_to_seq1_and_seq2(self, new_seq1_arr: ndarray,
-                                               new_seq2_arr: ndarray) -> None:
-        self._seq1.genes_as_arr = new_seq1_arr
-        self._seq2.genes_as_arr = new_seq2_arr
-
-    def _append_new_seqs_to_population(self) -> None:
-        self._population.append(self._seq1)
-        self._population.append(self._seq2)
+    @classmethod
+    def _append_current_seqs_to_seqs_mutated_list(cls) -> None:
+        cls._seqs_mutated.append(cls._seq1)
+        cls._seqs_mutated.append(cls._seq2)
