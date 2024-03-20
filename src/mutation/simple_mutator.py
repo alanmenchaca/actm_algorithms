@@ -30,8 +30,9 @@ class SimpleMutator:
 
     @classmethod
     def mutate_seqs_genes(cls, seqs: list[Sequence]) -> None:
-        for idx, seq in enumerate(seqs):
-            seq.seq_id += f"[sm_{(idx + 1)}] "
+        num_zeros: int = len(str(len(seqs)))
+        for i, seq in enumerate(seqs):
+            seq.seq_id += f"[sm_{(i + 1):0{num_zeros}d}] "
             cls._mutate_genes(seq)
 
     @classmethod

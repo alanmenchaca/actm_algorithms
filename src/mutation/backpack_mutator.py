@@ -27,21 +27,22 @@ class BackpackCrosserMutator:
 
     @classmethod
     def _mutate_seqs(cls, seqs: list[Sequence]) -> None:
+        num_zeros: int = len(str(len(seqs)))
         for i in range(1, len(seqs), 2):
-            cls._seq1 = seqs[i - 1].__copy__()
-            cls._seq2 = seqs[i].__copy__()
+            cls._seq1, cls._seq2 = seqs[i - 1].__copy__(), seqs[i].__copy__()
+            cls._append_backpack_mutator_id_to_current_seqs_id(i, num_zeros)
             cls._mutate_seq1_and_seq2(i)
 
     @classmethod
-    def _mutate_seq1_and_seq2(cls, idx: int) -> None:
-        cls._append_backpack_mutator_id_to_current_seqs_id(idx)
-        cls._swap_genes_between_current_seqs()
-        cls._append_current_seqs_to_seqs_mutated_list()
+    def _append_backpack_mutator_id_to_current_seqs_id(cls, idx: int,
+                                                       num_zeros: int) -> None:
+        cls._seq1.seq_id += f"[bcm_{idx:0{num_zeros}d}] "
+        cls._seq2.seq_id += f"[bcm_{(idx + 1):0{num_zeros}d}] "
 
     @classmethod
-    def _append_backpack_mutator_id_to_current_seqs_id(cls, idx: int) -> None:
-        cls._seq1.seq_id += f"[bcm_{idx}] "
-        cls._seq2.seq_id += f"[bcm_{(idx + 1)}] "
+    def _mutate_seq1_and_seq2(cls, idx: int) -> None:
+        cls._swap_genes_between_current_seqs()
+        cls._append_current_seqs_to_seqs_mutated_list()
 
     @classmethod
     def _swap_genes_between_current_seqs(cls) -> None:
