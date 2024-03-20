@@ -5,26 +5,35 @@ from typing import Optional
 import numpy as np
 from numpy import ndarray
 
-from exceptions.seq_genes import GenesValidator as gv
 from utils.molecule import Molecule
 
 
 @dataclass
 class Sequence:
-    genes: str = ""
+    _genes: str = ""
     seq_id: Optional[str] = ""
-    _genes_as_arr: ndarray = field(default=ndarray, init=False)
-    _genes_len: int = field(default=int, init=False)
+    _genes_as_arr: ndarray = None
+    _genes_len: int = 0
 
-    _fitness: float = field(default=0.0, init=False)
-    _molecule: Molecule = field(default=Molecule, init=False)
+    _fitness: float = 0.0
+    _molecule: Molecule = None
 
     def __post_init__(self) -> None:
-        gv.validate_genes_str(self.genes)
         self._genes_len = len(self.genes)
-        self._genes_as_arr = (np.array(list(self.genes))
+        self._genes_as_arr = (np.array(list(self.genes), dtype='c')
                               .reshape((self._genes_len, 1)))
         self._molecule = Molecule()
+
+    @property
+    def genes(self) -> str:
+        return self._genes
+
+    @genes.setter
+    def genes(self, genes: str) -> None:
+        self._genes = genes
+        self._genes_len = len(genes)
+        self._genes_as_arr = (np.array(list(genes), dtype='c')
+                              .reshape((self._genes_len, 1)))
 
     @property
     def genes_as_arr(self) -> ndarray:
@@ -32,10 +41,9 @@ class Sequence:
 
     @genes_as_arr.setter
     def genes_as_arr(self, genes_arr: ndarray) -> None:
-        gv.validate_genes_as_arr(genes_arr)
         self._genes_len = len(genes_arr)
         self._genes_as_arr = genes_arr.reshape((self._genes_len, 1))
-        self.genes = "".join(self._genes_as_arr.flatten())
+        self.genes = self._genes_as_arr.tobytes().decode('utf-8')
 
     @property
     def fitness(self) -> float:
@@ -62,7 +70,7 @@ class Sequence:
         return '-' in self.genes
 
     def get_indexes_of_genes(self) -> ndarray:
-        return np.where(self._genes_as_arr != '-')[0]
+        return np.where(self._genes_as_arr != b'-')[0]
 
     def to_molecule_instance(self) -> Molecule:
         return self._molecule
