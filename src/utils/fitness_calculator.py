@@ -23,7 +23,7 @@ class FitnessCalculator:
     def _compute_seq_fitness(cls, seq: Sequence) -> None:
         cls._current_seq = seq.__copy__()
         cls._match_genes_between_main_and_current_seq()
-        seq.fitness = float(cls._count_genes_match())
+        seq.fitness = int(cls._count_genes_match())
 
     @classmethod
     def _match_genes_between_main_and_current_seq(cls) -> None:

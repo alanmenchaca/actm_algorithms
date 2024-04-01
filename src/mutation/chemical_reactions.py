@@ -62,7 +62,7 @@ class ChemicalReactionsMutator:
             collision_type: int = np.random.randint(0, 4)
             cls._do_collision(seqs, collision_type)
 
-        seq_to_compare.fitness = 0.0
+        seq_to_compare.fitness = 0
 
     @classmethod
     def _do_collision(cls, seqs: list[Sequence], collision_type: int) -> None:

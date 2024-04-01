@@ -8,7 +8,7 @@ from utils.fitness_calculator import FitnessCalculator
 from utils.sequence import Sequence
 
 
-# TODO: REFACTOR THIS CLASS
+# TODO: Refactor SimulatedAnnealing class
 @dataclass
 class SimulatedAnnealing:
     high_temperature: ClassVar[int] = 1000

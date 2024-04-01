@@ -1,5 +1,5 @@
 import copy
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional
 
 import numpy as np
@@ -15,7 +15,7 @@ class Sequence:
     _genes_as_arr: ndarray = None
     _genes_len: int = 0
 
-    _fitness: float = 0.0
+    _fitness: int = 0
     _molecule: Molecule = None
 
     def __post_init__(self) -> None:
@@ -46,11 +46,11 @@ class Sequence:
         self.genes = self._genes_as_arr.tobytes().decode('utf-8')
 
     @property
-    def fitness(self) -> float:
+    def fitness(self) -> int:
         return self._fitness
 
     @fitness.setter
-    def fitness(self, fitness: float) -> None:
+    def fitness(self, fitness: int) -> None:
         self._fitness = fitness
         self._molecule.potential_energy = fitness
 

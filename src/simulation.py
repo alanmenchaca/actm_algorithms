@@ -41,8 +41,8 @@ class Simulation:
         seqA: str = TxtFileReader.read('sequences/env_HIV1H.txt')
         seqB: str = TxtFileReader.read('sequences/env_HIV1S.txt')
 
-        self.seqA: Sequence = Sequence(genes=seqA)
-        self.seqB: Sequence = Sequence(genes=seqB)
+        self.seqA: Sequence = Sequence(_genes=seqA)
+        self.seqB: Sequence = Sequence(_genes=seqB)
 
     def run_simulation(self):
         generate_population_func_list: list[Callable] = [
@@ -57,7 +57,7 @@ class Simulation:
 
                 for sequence in self._seqA_list:
                     self._fitness.set_main_seq(sequence)
-                    self._fitness.compute_fitness(self._seqB_list)
+                    self._fitness.compute_seqs_fitness(self._seqB_list)
 
         self.run_chemical_reactions_mutator()
         # for sequence in self._seqA_list:
@@ -77,16 +77,16 @@ class Simulation:
         # TxtFileSaver.format_and_save_sequences(seqA, seqB, "formatted_sequences.txt")
 
     def _generate_population_from_seqA_and_seqB_using_simple_mutator(self) -> None:
-        self._seqA_list = self._simple_mutator.generate_mutated_population(
+        self._seqA_list = self._simple_mutator.generate_mutated_seqs(
             seq=self.seqA, num_seqs=self._num_sequences_per_population)
-        self._seqB_list = self._simple_mutator.generate_mutated_population(
+        self._seqB_list = self._simple_mutator.generate_mutated_seqs(
             seq=self.seqB, num_seqs=self._num_sequences_per_population)
 
     def _generate_population_from_seqA_and_seqB_using_backpack_crosser_mutator(self) -> None:
         self._seqA_list = self._crosser_mutator. \
-            generate_mutated_population(sequences=self._seqA_list)
+            generate_mutated_seqs(seqs=self._seqA_list)
         self._seqB_list = self._crosser_mutator \
-            .generate_mutated_population(sequences=self._seqB_list)
+            .generate_mutated_seqs(seqs=self._seqB_list)
 
     def run_chemical_reactions_mutator(self):
         pass

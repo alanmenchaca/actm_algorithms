@@ -40,8 +40,8 @@ def generate_populations_of_cr_mutator(seqA_population: list[Sequence],
 def generate_populations_of_crosser_mutator(seqA_population: list[Sequence],
                                             seqB_population: list[Sequence]) \
         -> tuple[list[Sequence], list[Sequence]]:
-    seqA_population: list[Sequence] = crosser_mutator.generate_mutated_population(seqA_population)
-    seqB_population: list[Sequence] = crosser_mutator.generate_mutated_population(seqB_population)
+    seqA_population: list[Sequence] = crosser_mutator.generate_mutated_seqs(seqA_population)
+    seqB_population: list[Sequence] = crosser_mutator.generate_mutated_seqs(seqB_population)
     return seqA_population, seqB_population
 
 
@@ -49,11 +49,11 @@ def generate_populations_of_simple_mutator(seqA: Sequence, seqB: Sequence,
                                            num_sequences: int, params: dict[str, tuple]) \
         -> tuple[list[Sequence], list[Sequence]]:
     if params:
-        simple_mutator.rand_indexes_len = params['rand_indexes_len']
-        simple_mutator.gaps_lengths_arr = params['gaps_lengths_arr']
+        simple_mutator._rand_indexes_len = params['rand_indexes_len']
+        simple_mutator.set_gaps_lengths_arr = params['gaps_lengths_arr']
 
-    seqA_population: list[Sequence] = simple_mutator.generate_mutated_population(seqA, num_sequences // 2)
-    seqB_population: list[Sequence] = simple_mutator.generate_mutated_population(seqB, num_sequences // 2)
+    seqA_population: list[Sequence] = simple_mutator.generate_mutated_seqs(seqA, num_sequences // 2)
+    seqB_population: list[Sequence] = simple_mutator.generate_mutated_seqs(seqB, num_sequences // 2)
     return seqA_population, seqB_population
 
 
@@ -77,7 +77,7 @@ def get_best_sequences_from_populations(seqA_population: list[Sequence],
                                         seqB_population: list[Sequence]) -> tuple[Sequence, Sequence]:
     for seqA_to_compare in seqA_population:
         fitness_calculator.set_main_seq(seqA_to_compare)
-        fitness_calculator.compute_fitness(seqB_population)
+        fitness_calculator.compute_seqs_fitness(seqB_population)
 
     best_sequences = fitness_calculator.get_best_seq_of_each_population()
     return best_sequences['seqA'], best_sequences['seqB']
