@@ -1,0 +1,46 @@
+
+mejoras:
+
+	~ Comentarios de a la tesis por el Maestro Tinoco: ~
+
+Anexo documento de word, todo lo que esta marcado en amarillo no es que este equivocado,
+simplemente es señalar la sección donde a mi parecer deben de contemplase los comentarios
+siguientes:
+
+* Definir si el objetivo es presentar tesis o tesina, en mi punto de vista es una tesina.
+
+* Los alumnos durante su trayectoria universtaria, ven diferentes estrategias de comunicación
+  visual, de esquemas, de modelos, de diagramación de procedimientos/algoritmos y de códigos
+  estratégicos de programación, los cuales no veo  representados para los estándares de las
+  nuevas generaciones y que para todos en general deberían reforzar los dichos teóricos y de
+  algoritmos planteados en forma textual y que estan muy generalizados, esto con la finalidad
+  de poder entender, interpretar e implementar de mejor modo los algoritmos mencionados y de
+  su aplicación en la realidad de nuestra sociedad, comunidad y el mundo.
+
+* Sería interesante que se mencionara en el documento un link donde pudiera estar alojada
+  la aplicación ya en "deploy" para poder interactuar con el producto final, que al ser
+  desarrollado por alumno de sistemas computacionales, es obligado a que finalize todo el
+  contexto en un producto informático.
+ 
+Saludos y estoy al pendiente por si proceden o no estos ajustes. 
+
+
+	~ Comentarios de a la tesis por el Dr. Carlos Gonzalez: ~
+
+* En general me parece que son muy pocas referencias. Una tesis como esta deberá de tener
+  12 o mas referencias.
+
+* Recomiendo que las referencias (tanto en el texto del articulo, como al final de su
+  listado) sigan el formato establecido para “Research Papers”. Se puede encontrar el
+  formato en https://ieeeauthorcenter.ieee.org/wp-content/uploads/ IEEE-Reference-Guide.pdf
+
+* No me queda muy claro que quiere decir con: “Los resultados obtenidos revelan que, en
+  términos de mejor aptitud”, igualmente “Sin embargo, en un análisis promedio”. Seria
+  bueno explicar que quiere decir con esto mas claramente.
+
+* Habla de “calidad’  de los aliniamientos, pero no encontré donde se defina claramente
+  que es y como se mide.
+
+* No encontré ningún lugar que me diga que es la “estabilidad de los resultados”.
+
+* En general me parece que la tesis esta bien diseñada y bien estructurada. Solo los pequeños detalles.
