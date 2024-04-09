@@ -3,7 +3,7 @@ from typing import Callable, ClassVar
 
 import numpy as np
 
-from mutation.backpack_mutator import BackpackCrosserMutator as BCMutator
+from mutation.crosser_mutator import CrosserMutator as BCMutator
 from mutation.simple_mutator import SimpleMutator
 from utils.fitness_calculator import FitnessCalculator
 from utils.sequence import Sequence, Molecule

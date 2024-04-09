@@ -1,45 +1,53 @@
 import time
 
-import numpy as np
 import matplotlib.pyplot as plt
-import scienceplots
+import numpy as np
 
-from actm_algorithms.stats.helper_func import load_seqA_and_seqB, \
-    generate_populations_of_simple_mutator, generate_populations_of_crosser_mutator, \
-    append_best_fitness_from_populations_to_list, round_to_nearest_multiple
-from mutation.backpack_mutator import BackpackCrosserMutator
+from mutation.crosser_mutator import CrosserMutator as CMutator
 from mutation.simple_mutator import SimpleMutator
+from utils.file_manager import SeqLoader
+from utils.fitness_calculator import FitnessCalculator
+from utils.sequence import Sequence
+
+import scienceplots
 
 # parameters:
 #   * num_sequences_list
 
-simple_mutator: SimpleMutator = SimpleMutator()
-crosser_mutator: BackpackCrosserMutator = BackpackCrosserMutator()
+seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
+seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
 
-seqA, seqB = load_seqA_and_seqB()
-num_sequences_list: list[int] = [100, 200, 300]
+num_seqs_list: list[int] = [100, 150, 200, 250, 300]
 sm_best_fitness_list: list[float] = []
 cm_best_fitness_list: list[float] = []
 
 start_time = time.time()
-for idx, num_sequences in enumerate(num_sequences_list):
-    seqA_sm_population, seqB_sm_population = \
-        generate_populations_of_simple_mutator(seqA, seqB, num_sequences, {})
-    append_best_fitness_from_populations_to_list(seqA_sm_population, seqB_sm_population,
-                                                 sm_best_fitness_list)
+for idx, num_seqs in enumerate(num_seqs_list):
+    seq2_sm_seqs: list[Sequence] = SimpleMutator.generate_mutated_seqs(seq2, num_seqs)
+    seq2_cm_seqs: list[Sequence] = CMutator.generate_mutated_seqs(seq2_sm_seqs)
 
-    seqA_cm_population, seqB_cm_population = \
-        generate_populations_of_crosser_mutator(seqA_sm_population, seqB_sm_population)
-    append_best_fitness_from_populations_to_list(seqA_cm_population, seqB_cm_population,
-                                                 cm_best_fitness_list)
-    print(f'{(idx + 1)}/{len(num_sequences_list)} sequences done!')
+    FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_seqs)
+    FitnessCalculator.compute_seqs_fitness(seq1, seq2_cm_seqs)
+
+    sm_best_fitness_list.append(seq2_sm_seqs[0].fitness)
+    cm_best_fitness_list.append(seq2_cm_seqs[0].fitness)
+
+    print(f'{(idx + 1)}/{len(num_seqs_list)} sequences done!')
 
 end_time = time.time()
 elapsed_time_minutes = (end_time - start_time) / 60
 print(f'elapsed_time_minutes: {elapsed_time_minutes}')
-
 print(f'sm_best_fitness_list: {sm_best_fitness_list}')
 print(f'cm_best_fitness_list: {cm_best_fitness_list}')
+
+
+def round_to_nearest_multiple(value: int, base: int = 100) -> int:
+    remainder: int = value % base
+    if remainder <= (base / 2):
+        return value - remainder
+    else:
+        return value + (base - remainder)
+
 
 all_best_fitness = np.concatenate((sm_best_fitness_list, cm_best_fitness_list))
 min_nearest_multiple = round_to_nearest_multiple(min(all_best_fitness))
@@ -54,7 +62,7 @@ with plt.style.context(['science', 'ieee', 'grid']):
     plt.rcParams['font.size'] = 7
 
     plt.suptitle('Rendimiento de Mutador Simple y Mutador Cruzado', fontsize=7)
-    plt.title(f'Secuencias Totales: {sum(num_sequences_list)}', fontsize=7)
+    plt.title(f'Secuencias Totales: {sum(num_seqs_list)}', fontsize=7)
 
     plt.boxplot([sm_best_fitness_list, cm_best_fitness_list],
                 labels=['Mutador Simple', 'Mutador Cruzado'],
@@ -72,13 +80,13 @@ with plt.style.context(['science', 'ieee', 'grid']):
 with plt.style.context(['science', 'ieee', 'grid']):
     plt.figure()
     plt.suptitle('Rendimiento  de Mutador Simple y Mutador Cruzado', fontsize=7)
-    plt.title(f'Secuencias Totales: {sum(num_sequences_list)}', fontsize=7)
+    plt.title(f'Secuencias Totales: {sum(num_seqs_list)}', fontsize=7)
 
-    plt.plot(num_sequences_list, sm_best_fitness_list, linewidth=0.5, label='Mutador Simple')
-    plt.plot(num_sequences_list, cm_best_fitness_list, linewidth=0.5, label='Mutador Cruzado')
+    plt.plot(num_seqs_list, sm_best_fitness_list, linewidth=0.5, label='Mutador Simple')
+    plt.plot(num_seqs_list, cm_best_fitness_list, linewidth=0.5, label='Mutador Cruzado')
 
-    plt.scatter(num_sequences_list, sm_best_fitness_list, s=4.5)
-    plt.scatter(num_sequences_list, cm_best_fitness_list, s=4.5)
+    plt.scatter(num_seqs_list, sm_best_fitness_list, s=4.5)
+    plt.scatter(num_seqs_list, cm_best_fitness_list, s=4.5)
 
     plt.xticks(fontsize=6)
     plt.yticks(y_ticks, fontsize=6)

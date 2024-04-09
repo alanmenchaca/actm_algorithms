@@ -1,28 +1,28 @@
 import time
 
 import matplotlib.pyplot as plt
-import scienceplots
 
-from actm_algorithms.stats.helper_func import load_seqA_and_seqB, \
-    generate_populations_of_simple_mutator, append_best_fitness_from_populations_to_list, \
-    generate_populations_of_cr_mutator
-from mutation.chemical_reactions import ChemicalReactionsMutator
+from mutation.chemical_reactions import ChemicalReactionsMutator as CRMutator
 from mutation.simple_mutator import SimpleMutator
+from utils.file_manager import SeqLoader
+from utils.fitness_calculator import FitnessCalculator
+from utils.sequence import Sequence
+
+import scienceplots
 
 # parameters:
 #   * num_sequences_list
 #   * num_collisions_list
 
-simple_mutator: SimpleMutator = SimpleMutator()
-cr_mutator: ChemicalReactionsMutator = ChemicalReactionsMutator()
+seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
+seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
 
-seqA, seqB = load_seqA_and_seqB()
-num_sequences_list: list[int] = [50, 100, 150, 200]
-# num_collisions_list: list[int] = [10, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+num_seqs_list: list[int] = [50, 100, 150, 200]
 num_collisions_list: list[int] = [5, 10, 15, 20, 30, 50]
 
 # large collision dont improve the fitness
 # num_collisions_list: list[int] = [100, 150, 200, 250, 300, 500]
+# num_collisions_list: list[int] = [10, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
 
 sm_best_fitness_list: list[float] = []
 cr_best_fitness_list: list[float] = []
@@ -40,17 +40,16 @@ start_time = time.time()
 #                                                  cr_best_fitness_list)
 #     print(f'{(idx + 1)}/{len(num_collisions_list)} collisions done!')
 
-for idx, num_sequences in enumerate(num_sequences_list):
-    seqA_sm_population, seqB_sm_population = \
-        generate_populations_of_simple_mutator(seqA, seqB, num_sequences, {})
-    append_best_fitness_from_populations_to_list(seqA_sm_population, seqB_sm_population,
-                                                 sm_best_fitness_list)
+for idx, num_seqs in enumerate(num_seqs_list):
+    seq2_sm_seqs: list[Sequence] = SimpleMutator.generate_mutated_seqs(seq2, num_seqs)
+    FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_seqs)
+    sm_best_fitness_list.append(seq2_sm_seqs[0].fitness)
 
-    seqA_cr_population, seqB_cr_population = \
-        generate_populations_of_cr_mutator(seqA_sm_population, seqB_sm_population, 10)
-    append_best_fitness_from_populations_to_list(seqA_cr_population, seqB_cr_population,
-                                                 cr_best_fitness_list)
-    print(f'{(idx + 1)}/{len(num_sequences_list)} sequences done!')
+    CRMutator.collide_molecules(seq1, seq2_sm_seqs, 10)
+    FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_seqs)
+    cr_best_fitness_list.append(seq2_sm_seqs[0].fitness)
+
+    print(f'{(idx + 1)}/{len(num_seqs_list)} sequences done!')
 
 end_time = time.time()
 elapsed_time_minutes = (end_time - start_time) / 60
@@ -80,8 +79,8 @@ print(f'cr_best_fitness_list: {cr_best_fitness_list}')
 
 # ################################################################################
 
-plt.plot(num_sequences_list, sm_best_fitness_list, marker='o', label='Simple Mutator')
-plt.plot(num_sequences_list, cr_best_fitness_list, marker='o', label='Chemical Reactions Mutator')
+plt.plot(num_seqs_list, sm_best_fitness_list, marker='o', label='Simple Mutator')
+plt.plot(num_seqs_list, cr_best_fitness_list, marker='o', label='Chemical Reactions Mutator')
 
 plt.xlabel('Número de secuencias')
 plt.ylabel('fitness')

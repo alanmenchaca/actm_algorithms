@@ -13,8 +13,8 @@ seq2.seq_id = "HIV1H"
 
 ####################################################################
 
-seq2_sm_population: list[Sequence] \
-    = SimpleMutator.generate_mutated_seqs(seq2, 10)
+seq2_sm_population: list[Sequence] = (
+    SimpleMutator.generate_mutated_seqs(seq2, 10))
 FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_population)
 best_seq: Sequence = seq2_sm_population[0]
 

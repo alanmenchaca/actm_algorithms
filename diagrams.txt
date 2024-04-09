@@ -1,0 +1,49 @@
+
+- Mejorar introduccion
+
+* Mutador de Secuencias Simple *
+Con el mutador simple de secuencias, podemos generar secuencias mutadas
+a partir de una secuencia original, la secuencia y el número de secuencias
+a generar son dos parámetros que se deben ingresar al programa.
+
+Variables:
+_rand_indexes_len
+_gaps_lengths_arr
+_rand_indexes_arr
+
+[optional parameters]
+_rand_indexes_len_range
+_gaps_lengths_arr_range
+
+---------------------------------------
+
+Se ingresa
+
+---------------------------------------
+
+Mutador Simple de Secuencias (diagrama de flujo)
+- ( Inicio )
+- /Ingresa la secuencia/
+ /Ingresa n número de secuencias a generar/
+- [Genera una lista de n copias de la secuencia ingresada]
+- [Selecciona una secuencia de la lista y la muta]
+- [Se guarda la secuencia mutada]
+- /Se han mutado todas las secuencias?\
+    - No
+        - [ Seleccionar la siguiente secuencia ]
+        - [ Volver a: se selecciona una secuencia y se muta ]
+    - Sí
+- [Retorna la lista de secuencias mutadas]
+- ( Fin )
+
+---------------------------------------
+
+Mutador Simple de Secuencias (diagrama de flujo)
+- ( Inicio )
+- /Ingresa la secuencia/
+ /Ingresa n número de secuencias a generar/
+- genera n secuencias mutadas utilizando el mutador simple
+
+- ( Fin )
+
+---------------------------------------

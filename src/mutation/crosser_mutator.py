@@ -8,7 +8,7 @@ from utils.sequence import Sequence
 
 
 @dataclass(init=False, repr=False)
-class BackpackCrosserMutator:
+class CrosserMutator:
     _seqs_mutated: ClassVar[list[Sequence]]
     _seq1: ClassVar[Sequence]
     _seq2: ClassVar[Sequence]
