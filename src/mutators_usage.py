@@ -26,7 +26,7 @@ for i in range(populations):
 
     # for sm_seq in seq2_sm_seqs:
     #     print(sm_seq.seq_id, sm_seq.get_genes_without_mutations(),
-    #           sm_seq.fitness, sm_seq.genes)
+    #           sm_seq.similarity, sm_seq.genes)
 
 ################################################################
 
@@ -38,7 +38,7 @@ for i in range(populations):
 
     # for sm_seq, bcm_seq in zip(seq2_sm_seqs, seq2_cm_seqs):
     #     print(bcm_seq.seq_id, bcm_seq.get_genes_without_mutations(),
-    #           bcm_seq.fitness, sm_seq.genes, bcm_seq.genes)
+    #           bcm_seq.similarity, sm_seq.genes, bcm_seq.genes)
 
 ################################################################
 
@@ -49,7 +49,7 @@ for i in range(populations):
 
     # for sm_seq in seq2_sm_seqs:
     #     print(sm_seq.seq_id, sm_seq.get_genes_without_mutations(),
-    #           sm_seq.fitness, sm_seq.genes)
+    #           sm_seq.similarity, sm_seq.genes)
 
     CRMutator.collide_molecules(seq1, seq2_sm_seqs, 3)
     SeqsSimilarity.compute(seq1, seq2_sm_seqs)
@@ -57,11 +57,10 @@ for i in range(populations):
     # print()
     # for sm_seq in seq2_sm_seqs:
     #     print(sm_seq.seq_id, sm_seq.get_genes_without_mutations(),
-    #           sm_seq.fitness, sm_seq.genes)
+    #           sm_seq.similarity, sm_seq.genes)
 
 ################################################################
 
 best_seq: Sequence = SimulatedAnnealing.run(seq1, seq2)
-# print(best_seq)
-
 SeqsSaver.save(seq1, seq2)
+# print(best_seq)

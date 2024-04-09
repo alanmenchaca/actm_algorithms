@@ -36,7 +36,7 @@ class SimulatedAnnealing:
 
         while cls._temperature > final_temperature:
             cls._run_sa_until_metropolis_criterion()
-            print(f'temperature: {round(cls._temperature, 2)}')
+            # print(f'temperature: {round(cls._temperature, 2)}')
 
     @classmethod
     def _run_sa_until_metropolis_criterion(cls, metropolis_criterion: int = 100) -> None:
