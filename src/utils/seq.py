@@ -15,7 +15,7 @@ class Sequence:
     _genes_as_arr: ndarray = None
     _genes_len: int = 0
 
-    _fitness: int = 0
+    _similarity: int = 0
     _molecule: Molecule = None
 
     def __post_init__(self) -> None:
@@ -46,13 +46,13 @@ class Sequence:
         self.genes = self._genes_as_arr.tobytes().decode('utf-8')
 
     @property
-    def fitness(self) -> int:
-        return self._fitness
+    def similarity(self) -> int:
+        return self._similarity
 
-    @fitness.setter
-    def fitness(self, fitness: int) -> None:
-        self._fitness = fitness
-        self._molecule.potential_energy = fitness
+    @similarity.setter
+    def similarity(self, similarity: int) -> None:
+        self._similarity = similarity
+        self._molecule.potential_energy = similarity
 
     @property
     def genes_len(self) -> int:
@@ -86,4 +86,4 @@ class Sequence:
     def __repr__(self) -> str:
         return f'Sequence(genes: {self.genes[:10]}...,' \
                f' genes_len: {self._genes_len},' \
-               f' fitness: {self._fitness})'
+               f' similarity: {self._similarity})'

@@ -4,46 +4,62 @@ from typing import ClassVar
 import numpy as np
 
 from mutation.simple_mutator import SimpleMutator
-from utils.fitness_calculator import FitnessCalculator
-from utils.sequence import Sequence
+from utils.metrics import SeqsSimilarity
+from utils.seq import Sequence
 
 
-# TODO: Refactor SimulatedAnnealing class
 @dataclass
 class SimulatedAnnealing:
-    high_temperature: ClassVar[int] = 1000
-    final_temperature: ClassVar[float] = 0.01
-    cooling_rate: ClassVar[float] = 0.99
-    metropolis_criterion: ClassVar[int] = 100
-
-    _seq_mutated: ClassVar[Sequence] = None
+    _seq_ref: ClassVar[Sequence] = None
+    _seq: ClassVar[Sequence] = None
     _best_seq: ClassVar[Sequence] = None
 
+    _temperature: ClassVar[float] = 0.0
+
     @classmethod
-    def run_annealing(cls, main_seq: Sequence, seq: Sequence) -> Sequence:
-        cls._best_seq = seq
-        cls._mutate_seq_and_compute_fitness(main_seq, seq)
-        temperature: float = cls.high_temperature
-
-        while temperature > cls.final_temperature:
-            for _ in range(cls.metropolis_criterion):
-                cls._seq_mutated: Sequence = seq.__copy__()
-                cls._mutate_seq_and_compute_fitness(main_seq, cls._seq_mutated)
-                difference: float = cls._seq_mutated.fitness - seq.fitness
-
-                if difference > 0:
-                    cls._best_seq = cls._seq_mutated
-                else:
-                    probability: float = np.exp(-difference / temperature)
-                    if probability > np.random.rand():
-                        cls._best_seq = cls._seq_mutated
-
-            temperature = cls.cooling_rate * temperature
-            print(f'temperature: {round(temperature, 2)}')
-
+    def run(cls, main_seq: Sequence, seq: Sequence) -> Sequence:
+        cls._init_seqs(main_seq, seq)
+        cls._execute_algorithm()
         return cls._best_seq
 
     @classmethod
-    def _mutate_seq_and_compute_fitness(cls, seq_to_compare: Sequence, seq: Sequence) -> None:
-        SimpleMutator.mutate_seqs_genes([seq])
-        FitnessCalculator.compute_seqs_fitness(seq_to_compare, [seq])
+    def _init_seqs(cls, seq_ref: Sequence, seq_to_mutate: Sequence) -> None:
+        cls._seq_ref = seq_ref
+        cls._best_seq = seq_to_mutate
+        cls._seq = seq_to_mutate
+
+    @classmethod
+    def _execute_algorithm(cls) -> None:
+        high_temperature: int = 1000
+        final_temperature: float = 0.01
+        cls._temperature = high_temperature
+
+        while cls._temperature > final_temperature:
+            cls._run_sa_until_metropolis_criterion()
+            print(f'temperature: {round(cls._temperature, 2)}')
+
+    @classmethod
+    def _run_sa_until_metropolis_criterion(cls, metropolis_criterion: int = 100) -> None:
+        for _ in range(metropolis_criterion):
+            seq_mutated: Sequence = cls._generate_seq_mutated()
+            difference: float = seq_mutated.similarity - cls._seq.similarity
+
+            if difference > 0:
+                cls._best_seq = seq_mutated
+            else:
+                probability: float = np.exp(-difference / cls._temperature)
+                if probability > np.random.rand():
+                    cls._best_seq = seq_mutated
+
+        cls._decrease_temperature()
+
+    @classmethod
+    def _generate_seq_mutated(cls) -> Sequence:
+        seq_mutated: Sequence = cls._seq.__copy__()
+        SimpleMutator.mutate_seqs_genes([seq_mutated])
+        SeqsSimilarity.compute(cls._seq_ref, [seq_mutated])
+        return seq_mutated
+
+    @classmethod
+    def _decrease_temperature(cls, cooling_rate: float = 0.99) -> None:
+        cls._temperature = cls._temperature * cooling_rate

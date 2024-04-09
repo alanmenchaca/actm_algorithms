@@ -3,27 +3,27 @@ from typing import ClassVar
 
 import numpy as np
 
-from utils.sequence import Sequence
+from utils.seq import Sequence
 
 
 @dataclass(repr=False)
-class FitnessCalculator:
+class SeqsSimilarity:
     _main_seq: ClassVar[Sequence] = field(default=None)
     _current_seq: ClassVar[Sequence] = field(init=False, default=None)
 
     @classmethod
-    def compute_seqs_fitness(cls, main_seq: Sequence, seqs: list[Sequence]) -> None:
+    def compute(cls, main_seq: Sequence, seqs: list[Sequence]) -> None:
         for seq in seqs:
             cls._main_seq = main_seq.__copy__()
-            cls._compute_seq_fitness(seq)
+            cls._compute_seq_similarity(seq)
 
-        seqs.sort(key=lambda seq: seq.fitness, reverse=True)
+        seqs.sort(key=lambda seq: seq.similarity, reverse=True)
 
     @classmethod
-    def _compute_seq_fitness(cls, seq: Sequence) -> None:
+    def _compute_seq_similarity(cls, seq: Sequence) -> None:
         cls._current_seq = seq.__copy__()
         cls._match_genes_between_main_and_current_seq()
-        seq.fitness = int(cls._count_genes_match())
+        seq.similarity = int(cls._count_genes_match())
 
     @classmethod
     def _match_genes_between_main_and_current_seq(cls) -> None:

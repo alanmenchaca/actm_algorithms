@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 
 from mutation.chemical_reactions import ChemicalReactionsMutator as CRMutator
 from mutation.simple_mutator import SimpleMutator
-from utils.file_manager import SeqLoader
-from utils.fitness_calculator import FitnessCalculator
-from utils.sequence import Sequence
+from utils.seqs_manager import SeqLoader
+from utils.metrics import SeqsSimilarity
+from utils.seq import Sequence
 
 import scienceplots
 
@@ -42,12 +42,12 @@ start_time = time.time()
 
 for idx, num_seqs in enumerate(num_seqs_list):
     seq2_sm_seqs: list[Sequence] = SimpleMutator.generate_mutated_seqs(seq2, num_seqs)
-    FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_seqs)
-    sm_best_fitness_list.append(seq2_sm_seqs[0].fitness)
+    SeqsSimilarity.compute(seq1, seq2_sm_seqs)
+    sm_best_fitness_list.append(seq2_sm_seqs[0].similarity)
 
     CRMutator.collide_molecules(seq1, seq2_sm_seqs, 10)
-    FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_seqs)
-    cr_best_fitness_list.append(seq2_sm_seqs[0].fitness)
+    SeqsSimilarity.compute(seq1, seq2_sm_seqs)
+    cr_best_fitness_list.append(seq2_sm_seqs[0].similarity)
 
     print(f'{(idx + 1)}/{len(num_seqs_list)} sequences done!')
 

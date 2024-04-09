@@ -3,9 +3,9 @@ import time
 import matplotlib.pyplot as plt
 
 from mutation.simple_mutator import SimpleMutator
-from utils.file_manager import SeqLoader
-from utils.fitness_calculator import FitnessCalculator
-from utils.sequence import Sequence
+from utils.seqs_manager import SeqLoader
+from utils.metrics import SeqsSimilarity
+from utils.seq import Sequence
 
 import scienceplots
 
@@ -34,8 +34,8 @@ for gaps_len_range in gaps_len_range_list:
         SimpleMutator.set_params(rand_indexes_len_range, gaps_len_range)
         seq2_sm_seqs: list[Sequence] = SimpleMutator.generate_mutated_seqs(seq2, num_seqs)
 
-        FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_seqs)
-        best_fitness_list.append(seq2_sm_seqs[0].fitness)
+        SeqsSimilarity.compute(seq1, seq2_sm_seqs)
+        best_fitness_list.append(seq2_sm_seqs[0].similarity)
 
         print(f'gaps_len_range: {gaps_len_range}, '
               f'rand_indexes_len_range: {rand_indexes_len_range}')

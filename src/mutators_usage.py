@@ -1,10 +1,10 @@
-from mutation.crosser_mutator import CrosserMutator
 from mutation.chemical_reactions import ChemicalReactionsMutator as CRMutator
+from mutation.crosser_mutator import CrosserMutator
 from mutation.simple_mutator import SimpleMutator
-# from mutation.simulated_annealing import SimulatedAnnealing
-from utils.file_manager import SeqLoader, SeqsSaver
-from utils.fitness_calculator import FitnessCalculator
-from utils.sequence import Sequence
+from mutation.simulated_annealing import SimulatedAnnealing
+from utils.metrics import SeqsSimilarity
+from utils.seq import Sequence
+from utils.seqs_manager import SeqLoader, SeqsSaver
 
 seq1: Sequence = SeqLoader.load("./sequences/env_HIV1H.txt")
 seq2: Sequence = SeqLoader.load("./sequences/env_HIV1S.txt")
@@ -22,7 +22,7 @@ for i in range(populations):
     # print(f"\nPopulation: {(i + 1)} - seq1[{seq1.genes}]")
     SimpleMutator.set_params((1, 6), (1, 3))
     seq2_sm_seqs: list[Sequence] = SimpleMutator.generate_mutated_seqs(seq2, num_seqs)
-    FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_seqs)
+    SeqsSimilarity.compute(seq1, seq2_sm_seqs)
 
     # for sm_seq in seq2_sm_seqs:
     #     print(sm_seq.seq_id, sm_seq.get_genes_without_mutations(),
@@ -34,7 +34,7 @@ for i in range(populations):
     # print(f"\nPopulation: {(i + 1)} - seq1[{seq1.genes}]")
     seq2_sm_seqs: list[Sequence] = SimpleMutator.generate_mutated_seqs(seq2, num_seqs)
     seq2_cm_seqs: list[Sequence] = CrosserMutator.generate_mutated_seqs(seq2_sm_seqs)
-    FitnessCalculator.compute_seqs_fitness(seq1, seq2_cm_seqs)
+    SeqsSimilarity.compute(seq1, seq2_cm_seqs)
 
     # for sm_seq, bcm_seq in zip(seq2_sm_seqs, seq2_cm_seqs):
     #     print(bcm_seq.seq_id, bcm_seq.get_genes_without_mutations(),
@@ -45,14 +45,14 @@ for i in range(populations):
 for i in range(populations):
     # print(f"\nPopulation: {(i + 1)} - seq1[{seq1.genes}]")
     seq2_sm_seqs: list[Sequence] = SimpleMutator.generate_mutated_seqs(seq2, num_seqs)
-    FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_seqs)
+    SeqsSimilarity.compute(seq1, seq2_sm_seqs)
 
     # for sm_seq in seq2_sm_seqs:
     #     print(sm_seq.seq_id, sm_seq.get_genes_without_mutations(),
     #           sm_seq.fitness, sm_seq.genes)
 
     CRMutator.collide_molecules(seq1, seq2_sm_seqs, 3)
-    FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_seqs)
+    SeqsSimilarity.compute(seq1, seq2_sm_seqs)
 
     # print()
     # for sm_seq in seq2_sm_seqs:
@@ -61,7 +61,7 @@ for i in range(populations):
 
 ################################################################
 
-# best_seq: Sequence = SimulatedAnnealing.run_annealing(seq1, seq2)
+best_seq: Sequence = SimulatedAnnealing.run(seq1, seq2)
 # print(best_seq)
 
 SeqsSaver.save(seq1, seq2)

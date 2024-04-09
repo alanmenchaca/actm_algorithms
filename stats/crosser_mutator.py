@@ -5,9 +5,9 @@ import numpy as np
 
 from mutation.crosser_mutator import CrosserMutator as CMutator
 from mutation.simple_mutator import SimpleMutator
-from utils.file_manager import SeqLoader
-from utils.fitness_calculator import FitnessCalculator
-from utils.sequence import Sequence
+from utils.seqs_manager import SeqLoader
+from utils.metrics import SeqsSimilarity
+from utils.seq import Sequence
 
 import scienceplots
 
@@ -26,11 +26,11 @@ for idx, num_seqs in enumerate(num_seqs_list):
     seq2_sm_seqs: list[Sequence] = SimpleMutator.generate_mutated_seqs(seq2, num_seqs)
     seq2_cm_seqs: list[Sequence] = CMutator.generate_mutated_seqs(seq2_sm_seqs)
 
-    FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_seqs)
-    FitnessCalculator.compute_seqs_fitness(seq1, seq2_cm_seqs)
+    SeqsSimilarity.compute(seq1, seq2_sm_seqs)
+    SeqsSimilarity.compute(seq1, seq2_cm_seqs)
 
-    sm_best_fitness_list.append(seq2_sm_seqs[0].fitness)
-    cm_best_fitness_list.append(seq2_cm_seqs[0].fitness)
+    sm_best_fitness_list.append(seq2_sm_seqs[0].similarity)
+    cm_best_fitness_list.append(seq2_cm_seqs[0].similarity)
 
     print(f'{(idx + 1)}/{len(num_seqs_list)} sequences done!')
 

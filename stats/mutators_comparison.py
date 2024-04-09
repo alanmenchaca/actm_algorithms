@@ -7,9 +7,9 @@ from mutation.chemical_reactions import ChemicalReactionsMutator as CRMutator
 from mutation.crosser_mutator import CrosserMutator
 from mutation.simple_mutator import SimpleMutator
 from mutation.simulated_annealing import SimulatedAnnealing
-from utils.file_manager import SeqLoader
-from utils.fitness_calculator import FitnessCalculator
-from utils.sequence import Sequence
+from utils.seqs_manager import SeqLoader
+from utils.metrics import SeqsSimilarity
+from utils.seq import Sequence
 
 import scienceplots
 
@@ -29,21 +29,21 @@ sa_best_fitness_list: list[float] = []  # simulated annealing
 start_time = time.time()
 for idx, num_seqs in enumerate(num_sequences_list):
     seq2_sm_seqs: list[Sequence] = SimpleMutator.generate_mutated_seqs(seq2, num_seqs)
-    FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_seqs)
-    sm_best_fitness_list.append(seq2_sm_seqs[0].fitness)
+    SeqsSimilarity.compute(seq1, seq2_sm_seqs)
+    sm_best_fitness_list.append(seq2_sm_seqs[0].similarity)
 
     seq2_cm_seqs: list[Sequence] = CrosserMutator.generate_mutated_seqs(seq2_sm_seqs)
-    FitnessCalculator.compute_seqs_fitness(seq1, seq2_cm_seqs)
-    cm_best_fitness_list.append(seq2_cm_seqs[0].fitness)
+    SeqsSimilarity.compute(seq1, seq2_cm_seqs)
+    cm_best_fitness_list.append(seq2_cm_seqs[0].similarity)
 
     # a copy of seq2_sm_seqs is passed to avoid modifying the original list
     seq2_sm_seqs_copy: list[Sequence] = seq2_sm_seqs.copy()
     CRMutator.collide_molecules(seq1, seq2_sm_seqs_copy, 10)
-    FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_seqs_copy)
-    cr_best_fitness_list.append(seq2_sm_seqs_copy[0].fitness)
+    SeqsSimilarity.compute(seq1, seq2_sm_seqs_copy)
+    cr_best_fitness_list.append(seq2_sm_seqs_copy[0].similarity)
 
-    best_seq: Sequence = SimulatedAnnealing.run_annealing(seq1.__copy__(), seq2.__copy__())
-    sa_best_fitness_list.append(best_seq.fitness)
+    best_seq: Sequence = SimulatedAnnealing.run(seq1.__copy__(), seq2.__copy__())
+    sa_best_fitness_list.append(best_seq.similarity)
     # sa_best_fitness_list.append(np.random.randint(0, 1000))
 
     total_sequences += len(seq2_sm_seqs) + len(seq2_cm_seqs) + len(seq2_sm_seqs_copy)
@@ -114,7 +114,7 @@ with plt.style.context(['science', 'ieee', 'grid']):
     plt.legend(['MSS', 'MSS + MCS', 'MSS + MRQ', 'RS'], fontsize=5)
     plt.show()
 
-# TODO: graph the following combinations of mutators:
+# TODO: graph the following combinations of mutation:
 #   * crosser mutator + chemical reactions mutator
 #   * simulated annealing + crosser mutator
 #   * simulated annealing + chemical reactions mutator

@@ -4,7 +4,7 @@ from typing import ClassVar
 import numpy as np
 from numpy import ndarray
 
-from utils.sequence import Sequence
+from utils.seq import Sequence
 
 
 @dataclass(init=False, repr=False)

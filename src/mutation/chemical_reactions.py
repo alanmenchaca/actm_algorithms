@@ -5,8 +5,8 @@ import numpy as np
 
 from mutation.crosser_mutator import CrosserMutator as BCMutator
 from mutation.simple_mutator import SimpleMutator
-from utils.fitness_calculator import FitnessCalculator
-from utils.sequence import Sequence, Molecule
+from utils.metrics import SeqsSimilarity
+from utils.seq import Sequence, Molecule
 
 
 @dataclass(repr=False)
@@ -62,7 +62,7 @@ class ChemicalReactionsMutator:
             collision_type: int = np.random.randint(0, 4)
             cls._do_collision(seqs, collision_type)
 
-        seq_to_compare.fitness = 0
+        seq_to_compare.similarity = 0
 
     @classmethod
     def _do_collision(cls, seqs: list[Sequence], collision_type: int) -> None:
@@ -136,7 +136,7 @@ class ChemicalReactionsMutator:
 
             # Update the profile o M by w = w'. PE_w = PE_w' and KE_w = KE_w'
             seq.genes = seq_prime.genes
-            seq.fitness = pe_prime
+            seq.similarity = pe_prime
             molecule.potential_energy = pe_prime
             molecule.kinetic_energy = ke_prime
 
@@ -195,12 +195,12 @@ class ChemicalReactionsMutator:
             # Assign w_1', PE_w1' and KE_w1' to the profile of M_1',
             # and w_2', PE_w2' and KE_w2' to the profile of M_2'
             seq1.genes = seq1_prime.genes
-            seq1.fitness = pe1_prime
+            seq1.similarity = pe1_prime
             molecule1_prime.potential_energy = pe1_prime
             molecule1_prime.kinetic_energy = ke1_prime
 
             seq2.genes = seq2_prime.genes
-            seq2.fitness = pe2_prime
+            seq2.similarity = pe2_prime
             molecule2_prime.potential_energy = pe2_prime
             molecule2_prime.kinetic_energy = ke2_prime
         elif temp + buffer >= 0:
@@ -221,12 +221,12 @@ class ChemicalReactionsMutator:
             # Assign w_1', PE_w1' and KE_w1' to the profile of M_1',
             # and w_2', PE_w2' and KE_w2' to the profile of M_2'
             seq1.genes = seq1_prime.genes
-            seq1.fitness = pe1_prime
+            seq1.similarity = pe1_prime
             molecule1_prime.potential_energy = pe1_prime
             molecule1_prime.kinetic_energy = ke1_prime
 
             seq2.genes = seq2_prime.genes
-            seq2.fitness = pe2_prime
+            seq2.similarity = pe2_prime
             molecule2_prime.potential_energy = pe2_prime
             molecule2_prime.kinetic_energy = ke2_prime
 
@@ -278,12 +278,12 @@ class ChemicalReactionsMutator:
             # and KE_w1 = KE_w1', and the profile of M_2 by w_2 = w_2',
             # PE_w2 = PE_w2' and KE_w2 = KE_w2'.
             seq1.genes = seq1_prime.genes
-            seq1.fitness = pe1_prime
+            seq1.similarity = pe1_prime
             molecule1_prime.potential_energy = pe1_prime
             molecule1_prime.kinetic_energy = ke1_prime
 
             seq2.genes = seq2_prime.genes
-            seq2.fitness = pe2_prime
+            seq2.similarity = pe2_prime
             molecule2_prime.potential_energy = pe2_prime
             molecule2_prime.kinetic_energy = ke2_prime
 
@@ -325,7 +325,7 @@ class ChemicalReactionsMutator:
             ke_prime: float = molecules_total_energy - pe_prime
 
             # Assign w'. PE_w' and KE_w' to the profile of M'
-            seq_prime.fitness = pe_prime
+            seq_prime.similarity = pe_prime
             molecule_prime.potential_energy = pe_prime
             molecule_prime.kinetic_energy = ke_prime
 
@@ -335,6 +335,6 @@ class ChemicalReactionsMutator:
 
     @classmethod
     def _compute_potential_energy(cls, seq_to_compare: Sequence, seq: Sequence) -> float:
-        FitnessCalculator.compute_seqs_fitness(seq_to_compare, [seq])
-        seq_to_compare.fitness = seq.fitness
-        return seq.fitness
+        SeqsSimilarity.compute(seq_to_compare, [seq])
+        seq_to_compare.similarity = seq.similarity
+        return seq.similarity

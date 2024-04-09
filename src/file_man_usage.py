@@ -1,7 +1,7 @@
 from mutation.simple_mutator import SimpleMutator
-from utils.file_manager import SeqsSaver, SeqLoader
-from utils.fitness_calculator import FitnessCalculator
-from utils.sequence import Sequence
+from utils.seqs_manager import SeqsSaver, SeqLoader
+from utils.metrics import SeqsSimilarity
+from utils.seq import Sequence
 
 seq1: Sequence = SeqLoader.load("sequences/env_HIV1S.txt")
 seq2: Sequence = SeqLoader.load("sequences/env_HIV1H.txt")
@@ -15,7 +15,7 @@ seq2.seq_id = "HIV1H"
 
 seq2_sm_population: list[Sequence] = (
     SimpleMutator.generate_mutated_seqs(seq2, 10))
-FitnessCalculator.compute_seqs_fitness(seq1, seq2_sm_population)
+SeqsSimilarity.compute(seq1, seq2_sm_population)
 best_seq: Sequence = seq2_sm_population[0]
 
 SeqsSaver.save(seq1, best_seq)
