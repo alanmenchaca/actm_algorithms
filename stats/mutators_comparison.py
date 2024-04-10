@@ -7,9 +7,9 @@ from mutation.chemical_reactions import ChemicalReactionsMutator as CRMutator
 from mutation.crosser_mutator import CrosserMutator
 from mutation.simple_mutator import SimpleMutator
 from mutation.simulated_annealing import SimulatedAnnealing
-from utils.seqs_manager import SeqLoader
 from utils.metrics import SeqsSimilarity
 from utils.seq import Sequence
+from utils.seqs_manager import SeqLoader
 
 import scienceplots
 
@@ -21,30 +21,30 @@ num_sequences_list: list[int] = [200, 300, 400, 500, 600, 700, 800]
 num_collisions: int = 100
 total_sequences: int = 0
 
-sm_best_fitness_list: list[float] = []  # simple mutator
-cm_best_fitness_list: list[float] = []  # crosser mutator
-cr_best_fitness_list: list[float] = []  # chemical reactions mutator
-sa_best_fitness_list: list[float] = []  # simulated annealing
+sm_best_similarities: list[float] = []  # simple mutator
+cm_best_similarities: list[float] = []  # crosser mutator
+cr_best_similarities: list[float] = []  # chemical reactions mutator
+sa_best_similarities: list[float] = []  # simulated annealing
 
 start_time = time.time()
 for idx, num_seqs in enumerate(num_sequences_list):
     seq2_sm_seqs: list[Sequence] = SimpleMutator.generate_mutated_seqs(seq2, num_seqs)
     SeqsSimilarity.compute(seq1, seq2_sm_seqs)
-    sm_best_fitness_list.append(seq2_sm_seqs[0].similarity)
+    sm_best_similarities.append(seq2_sm_seqs[0].similarity)
 
     seq2_cm_seqs: list[Sequence] = CrosserMutator.generate_mutated_seqs(seq2_sm_seqs)
     SeqsSimilarity.compute(seq1, seq2_cm_seqs)
-    cm_best_fitness_list.append(seq2_cm_seqs[0].similarity)
+    cm_best_similarities.append(seq2_cm_seqs[0].similarity)
 
     # a copy of seq2_sm_seqs is passed to avoid modifying the original list
     seq2_sm_seqs_copy: list[Sequence] = seq2_sm_seqs.copy()
     CRMutator.collide_molecules(seq1, seq2_sm_seqs_copy, 10)
     SeqsSimilarity.compute(seq1, seq2_sm_seqs_copy)
-    cr_best_fitness_list.append(seq2_sm_seqs_copy[0].similarity)
+    cr_best_similarities.append(seq2_sm_seqs_copy[0].similarity)
 
     best_seq: Sequence = SimulatedAnnealing.run(seq1.__copy__(), seq2.__copy__())
-    sa_best_fitness_list.append(best_seq.similarity)
-    # sa_best_fitness_list.append(np.random.randint(0, 1000))
+    sa_best_similarities.append(best_seq.similarity)
+    # sa_best_similarities.append(np.random.randint(0, 1000))
 
     total_sequences += len(seq2_sm_seqs) + len(seq2_cm_seqs) + len(seq2_sm_seqs_copy)
     print(f'total_sequences: {total_sequences}')
@@ -54,10 +54,10 @@ end_time = time.time()
 elapsed_time_minutes = (end_time - start_time) / 60
 print(f'\nelapsed_time_minutes: {elapsed_time_minutes}')
 
-print(f'sm_best_fitness_list: {sm_best_fitness_list}')
-print(f'cm_best_fitness_list: {cm_best_fitness_list}')
-print(f'cr_best_fitness_list: {cr_best_fitness_list}')
-print(f'sa_best_fitness_list: {sa_best_fitness_list}')
+print(f'sm_best_similarities: {sm_best_similarities}')
+print(f'cm_best_similarities: {cm_best_similarities}')
+print(f'cr_best_similarities: {cr_best_similarities}')
+print(f'sa_best_similarities: {sa_best_similarities}')
 
 
 def round_to_nearest_multiple(value: int, base: int = 100) -> int:
@@ -68,28 +68,28 @@ def round_to_nearest_multiple(value: int, base: int = 100) -> int:
         return value + (base - remainder)
 
 
-all_best_fitness = np.concatenate((sm_best_fitness_list, cm_best_fitness_list,
-                                   cr_best_fitness_list, sa_best_fitness_list))
-min_nearest_multiple = round_to_nearest_multiple(min(all_best_fitness))
-max_nearest_multiple = round_to_nearest_multiple(max(all_best_fitness))
+all_best_similarities = np.concatenate((sm_best_similarities, cm_best_similarities,
+                                        cr_best_similarities, sa_best_similarities))
+min_nearest_multiple = round_to_nearest_multiple(min(all_best_similarities))
+max_nearest_multiple = round_to_nearest_multiple(max(all_best_similarities))
 y_ticks = np.arange(min_nearest_multiple, (max_nearest_multiple + 100), 100)
 
 # ################################################################################
 
 with plt.style.context(['science', 'ieee', 'grid']):
     plt.figure()
-    plt.suptitle('Mejores fitness de Secuencias en cada Mutador', fontsize=7)
+    plt.suptitle('Secuencias con mejor Similaridad en cada Mutador', fontsize=7)
     plt.title(f'Secuencias Totales: {total_sequences}', fontsize=7)
 
-    plt.boxplot([sm_best_fitness_list, cm_best_fitness_list,
-                 cr_best_fitness_list, sa_best_fitness_list],
+    plt.boxplot([sm_best_similarities, cm_best_similarities,
+                 cr_best_similarities, sa_best_similarities],
                 labels=['MSS', 'MSS + MCS', 'MSS + MRQ', 'MSS + RS'])
 
     plt.xticks(fontsize=6)
     plt.yticks(y_ticks, fontsize=6)
 
     plt.xlabel('Mutadores de secuencias', fontsize=7)
-    plt.ylabel('fitness', fontsize=7)
+    plt.ylabel('similaridad', fontsize=7)
 
     plt.show()
 
@@ -97,19 +97,19 @@ with plt.style.context(['science', 'ieee', 'grid']):
 
 with plt.style.context(['science', 'ieee', 'grid']):
     plt.figure()
-    plt.suptitle('Mejores fitness de Secuencias en cada Mutador', fontsize=7)
+    plt.suptitle('Secuencias con mejor similaridad en cada Mutador', fontsize=7)
     plt.title(f'Secuencias Totales: {total_sequences}', fontsize=7)
 
-    plt.plot(num_sequences_list, sm_best_fitness_list, linestyle='dashed')
-    plt.plot(num_sequences_list, cm_best_fitness_list, linestyle='dashdot')
-    plt.plot(num_sequences_list, cr_best_fitness_list, linestyle='dashed')
-    plt.plot(num_sequences_list, sa_best_fitness_list, linestyle='dashdot')
+    plt.plot(num_sequences_list, sm_best_similarities, linestyle='dashed')
+    plt.plot(num_sequences_list, cm_best_similarities, linestyle='dashdot')
+    plt.plot(num_sequences_list, cr_best_similarities, linestyle='dashed')
+    plt.plot(num_sequences_list, sa_best_similarities, linestyle='dashdot')
 
     plt.xticks(num_sequences_list, fontsize=6)
     plt.yticks(y_ticks, fontsize=6)
 
     plt.xlabel('Número de Secuencias', fontsize=7)
-    plt.ylabel('fitness', fontsize=7)
+    plt.ylabel('similaridad', fontsize=7)
 
     plt.legend(['MSS', 'MSS + MCS', 'MSS + MRQ', 'RS'], fontsize=5)
     plt.show()
