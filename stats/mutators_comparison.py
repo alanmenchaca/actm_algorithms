@@ -13,8 +13,8 @@ from utils.seqs_manager import SeqLoader
 
 import scienceplots
 
-seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
-seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
+seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
+seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
 
 # num_sequences_list: list[int] = [10, 20, 30, 40, 50]
 num_sequences_list: list[int] = [200, 300, 400, 500, 600, 700, 800]
