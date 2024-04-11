@@ -1,5 +1,5 @@
 
-- Mejorar introduccion
+- Mejorar Introducción
 
 * Mutador de Secuencias Simple *
 Con el mutador simple de secuencias, podemos generar secuencias mutadas
