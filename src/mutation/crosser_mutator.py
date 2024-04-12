@@ -36,8 +36,8 @@ class CrosserMutator:
     @classmethod
     def _append_backpack_mutator_id_to_current_seqs_id(cls, idx: int,
                                                        num_zeros: int) -> None:
-        cls._seq1.seq_id += f"[bcm_{idx:0{num_zeros}d}] "
-        cls._seq2.seq_id += f"[bcm_{(idx + 1):0{num_zeros}d}] "
+        cls._seq1.seq_id += f"[cm_{idx:0{num_zeros}d}] "
+        cls._seq2.seq_id += f"[cm_{(idx + 1):0{num_zeros}d}] "
 
     @classmethod
     def _mutate_seq1_and_seq2(cls, idx: int) -> None:
