@@ -41,19 +41,24 @@ class CrosserMutator:
     @classmethod
     def _swap_genes_between_current_seqs(cls) -> None:
         cross_point: int = np.random.randint(1, len(cls._seq1.get_indexes_of_genes()) - 1)
-        seq1_arr1_cp, seq1_arr2_cp = cls._get_seq_cross_points(cls._seq1, cross_point)
-        seq2_arr1_cp, seq2_arr2_cp = cls._get_seq_cross_points(cls._seq2, cross_point)
+        seq1_cp1, seq1_cp2 = cls._generate_seq_cross_points(cross_point)
+        seq2_cp1, seq2_cp2 = cls._generate_seq_cross_points(-cross_point)
 
-        cls._seq1.genes_as_arr = np.concatenate(
-            (cls._seq1.genes_as_arr[:seq1_arr1_cp],
-             cls._seq2.genes_as_arr[seq2_arr1_cp:])
-        )
-        cls._seq2.genes_as_arr = np.concatenate(
-            (cls._seq2.genes_as_arr[:seq2_arr2_cp],
-             cls._seq1.genes_as_arr[seq1_arr2_cp:])
+        new_seq1_genes_arr = cls._generate_new_seq_arr(cls._seq1, cls._seq2, seq1_cp1, seq1_cp2)
+        new_seq2_genes_arr = cls._generate_new_seq_arr(cls._seq2, cls._seq1, seq2_cp2, seq2_cp1)
+
+        cls._seq1.genes_as_arr = new_seq1_genes_arr
+        cls._seq2.genes_as_arr = new_seq2_genes_arr
+
+    @classmethod
+    def _generate_new_seq_arr(cls, seq1: Sequence, seq2: Sequence,
+                              seq_cp1: int, seq_cp2: int) -> np.ndarray:
+        return np.concatenate(
+            (seq1.genes_as_arr[:seq_cp1],
+             seq2.genes_as_arr[seq_cp2:])
         )
 
     @classmethod
-    def _get_seq_cross_points(cls, seq: Sequence, cross_point: int) -> tuple[int, int]:
-        return (int(seq.get_indexes_of_genes()[cross_point]),
-                int(seq.get_indexes_of_genes()[-cross_point]))
+    def _generate_seq_cross_points(cls, cross_point: int) -> tuple[int, int]:
+        return (int(cls._seq1.get_indexes_of_genes()[cross_point]),
+                int(cls._seq2.get_indexes_of_genes()[cross_point]))
