@@ -14,7 +14,20 @@ class SimulatedAnnealing:
     _seq: ClassVar[Sequence] = None
     _best_seq: ClassVar[Sequence] = None
 
+    _metropolis_criterion: ClassVar[int] = 100
+    _cooling_rate: ClassVar[float] = 0.99
+    _high_temperature: ClassVar[int] = 1000
+    _final_temperature: ClassVar[float] = 0.01
+
     _temperature: ClassVar[float] = 0.0
+
+    @classmethod
+    def set_params(cls, metropolis_criterion: int, cooling_rate: float,
+                   high_temperature: int, final_temperature: float) -> None:
+        cls._metropolis_criterion = metropolis_criterion
+        cls._cooling_rate = cooling_rate
+        cls._high_temperature = high_temperature
+        cls._final_temperature = final_temperature
 
     @classmethod
     def run(cls, main_seq: Sequence, seq: Sequence) -> Sequence:
@@ -30,17 +43,15 @@ class SimulatedAnnealing:
 
     @classmethod
     def _execute_algorithm(cls) -> None:
-        high_temperature: int = 1000
-        final_temperature: float = 0.01
-        cls._temperature = high_temperature
+        cls._temperature = cls._high_temperature
 
-        while cls._temperature > final_temperature:
+        while cls._temperature > cls._final_temperature:
             cls._run_sa_until_metropolis_criterion()
             # print(f'temperature: {round(cls._temperature, 2)}')
 
     @classmethod
-    def _run_sa_until_metropolis_criterion(cls, metropolis_criterion: int = 100) -> None:
-        for _ in range(metropolis_criterion):
+    def _run_sa_until_metropolis_criterion(cls) -> None:
+        for _ in range(cls._metropolis_criterion):
             seq_mutated: Sequence = cls._generate_seq_mutated()
             difference: float = seq_mutated.similarity - cls._seq.similarity
 
@@ -61,5 +72,5 @@ class SimulatedAnnealing:
         return seq_mutated
 
     @classmethod
-    def _decrease_temperature(cls, cooling_rate: float = 0.99) -> None:
-        cls._temperature = cls._temperature * cooling_rate
+    def _decrease_temperature(cls) -> None:
+        cls._temperature = cls._temperature * cls._cooling_rate
