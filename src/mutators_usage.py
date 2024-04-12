@@ -6,12 +6,12 @@ from utils.metrics import SeqsSimilarity
 from utils.seq import Sequence
 from utils.seqs_manager import SeqLoader, SeqsSaver
 
-seq1: Sequence = SeqLoader.load("./sequences/env_HIV1H.txt")
-seq2: Sequence = SeqLoader.load("./sequences/env_HIV1S.txt")
-seq1.seq_id, seq2.seq_id = "HIV1S ", "HIV1H "
+# seq1: Sequence = SeqLoader.load("./sequences/env_HIV1H.txt")
+# seq2: Sequence = SeqLoader.load("./sequences/env_HIV1S.txt")
+# seq1.seq_id, seq2.seq_id = "HIV1S ", "HIV1H "
 
-# seq1: Sequence = Sequence("AAADDDCCC")
-# seq2: Sequence = Sequence("AAADDDCCC")
+seq1: Sequence = Sequence("AAADDDCCC")
+seq2: Sequence = Sequence("AAADDDCCC")
 
 num_seqs: int = 10
 populations: int = 1
@@ -31,14 +31,14 @@ for i in range(populations):
 ################################################################
 
 for i in range(populations):
-    # print(f"\nPopulation: {(i + 1)} - seq1[{seq1.genes}]")
+    print(f"\nPopulation: {(i + 1)} - seq1[{seq1.genes}]")
     seq2_sm_seqs: list[Sequence] = SimpleMutator.generate_mutated_seqs(seq2, num_seqs)
     seq2_cm_seqs: list[Sequence] = CrosserMutator.generate_mutated_seqs(seq2_sm_seqs)
     SeqsSimilarity.compute(seq1, seq2_cm_seqs)
 
-    # for sm_seq, bcm_seq in zip(seq2_sm_seqs, seq2_cm_seqs):
-    #     print(bcm_seq.seq_id, bcm_seq.get_genes_without_mutations(),
-    #           bcm_seq.similarity, sm_seq.genes, bcm_seq.genes)
+    # for sm_seq, cm_seq in zip(seq2_sm_seqs, seq2_cm_seqs):
+    #    print(cm_seq.seq_id, cm_seq.get_genes_without_mutations(),
+    #          cm_seq.similarity, sm_seq.genes, cm_seq.genes)
 
 ################################################################
 
@@ -61,6 +61,6 @@ for i in range(populations):
 
 ################################################################
 
-best_seq: Sequence = SimulatedAnnealing.run(seq1, seq2)
-SeqsSaver.save(seq1, seq2)
+# best_seq: Sequence = SimulatedAnnealing.run(seq1, seq2)
+# SeqsSaver.save(seq1, seq2)
 # print(best_seq)
