@@ -7,7 +7,7 @@ from numpy import ndarray
 from utils.seq import Sequence
 
 
-@dataclass(init=False, repr=False)
+@dataclass
 class SimpleMutator:
     _rand_indexes_len: ClassVar[int] = None
     _gaps_lengths_arr: ClassVar[ndarray] = None

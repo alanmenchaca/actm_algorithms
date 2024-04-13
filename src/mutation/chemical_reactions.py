@@ -9,7 +9,7 @@ from utils.metrics import SeqsSimilarity
 from utils.seq import Sequence, Molecule
 
 
-@dataclass(repr=False)
+@dataclass
 class ChemicalReactionsMutator:
     """
     Una molécula posee dos tipos de energías:

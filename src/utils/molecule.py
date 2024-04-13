@@ -1,7 +1,7 @@
 from dataclasses import field, dataclass
 
 
-@dataclass()
+@dataclass
 class Molecule:
     potential_energy: int = field(default=0, init=False)
     kinetic_energy: float = field(default=0.0, init=False)

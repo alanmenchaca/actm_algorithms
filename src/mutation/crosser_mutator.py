@@ -7,7 +7,7 @@ import numpy as np
 from utils.seq import Sequence
 
 
-@dataclass(init=False, repr=False)
+@dataclass
 class CrosserMutator:
     _seqs_mutated: ClassVar[list[Sequence]]
     _seq1: ClassVar[Sequence]
@@ -53,10 +53,7 @@ class CrosserMutator:
     @classmethod
     def _generate_new_seq_arr(cls, seq1: Sequence, seq2: Sequence,
                               seq_cp1: int, seq_cp2: int) -> np.ndarray:
-        return np.concatenate(
-            (seq1.genes_as_arr[:seq_cp1],
-             seq2.genes_as_arr[seq_cp2:])
-        )
+        return np.concatenate((seq1.genes_as_arr[:seq_cp1], seq2.genes_as_arr[seq_cp2:]))
 
     @classmethod
     def _generate_seq_cross_points(cls, cross_point: int) -> tuple[int, int]:

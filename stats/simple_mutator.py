@@ -17,7 +17,7 @@ import scienceplots
 seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
 seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
 
-num_seqs: int = 1000
+num_seqs: int = 10000
 best_similarities_grid: list[list[int]] = []
 
 gaps_len_range_list: list[tuple[int, int]] = [

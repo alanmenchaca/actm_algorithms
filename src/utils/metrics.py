@@ -6,7 +6,7 @@ import numpy as np
 from utils.seq import Sequence
 
 
-@dataclass(repr=False)
+@dataclass
 class SeqsSimilarity:
     _main_seq: ClassVar[Sequence] = field(default=None)
     _current_seq: ClassVar[Sequence] = field(init=False, default=None)
