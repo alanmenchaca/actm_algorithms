@@ -14,10 +14,10 @@ import scienceplots
 #   * gaps_lengths_arr
 #   * num_sequences
 
-seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
-seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
+seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
+seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
 
-num_seqs: int = 10
+num_seqs: int = 1000
 best_similarities_grid: list[list[int]] = []
 
 gaps_len_range_list: list[tuple[int, int]] = [
@@ -38,8 +38,10 @@ for gaps_len_range in gaps_len_range_list:
         best_similarities.append(seq2_sm_seqs[0].similarity)
 
         print(f'gaps_len_range: {gaps_len_range}, '
-              f'rand_indexes_len_range: {rand_indexes_len_range}')
+              f'rand_indexes_len_range: {rand_indexes_len_range} '
+              f'best_similarity: {seq2_sm_seqs[0].similarity}')
 
+    print(best_similarities)
     print('-' * 54)
     best_similarities_grid.append(best_similarities)
 

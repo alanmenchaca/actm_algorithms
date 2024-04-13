@@ -14,8 +14,8 @@ import scienceplots
 #   * num_sequences_list
 #   * num_collisions_list
 
-seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
-seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
+seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
+seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
 
 num_seqs_list: list[int] = [50, 100, 150, 200]
 num_collisions_list: list[int] = [5, 10, 15, 20, 30, 50]

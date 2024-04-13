@@ -14,8 +14,8 @@ import scienceplots
 # parameters:
 #   * num_sequences_list
 
-seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
-seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
+seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
+seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
 
 num_seqs_list: list[int] = [100, 150, 200, 250, 300]
 sm_best_similarities: list[float] = []

@@ -1,11 +1,5 @@
 
-- Mejorar Introducción
-
 * Mutador de Secuencias Simple *
-Con el mutador simple de secuencias, podemos generar secuencias mutadas
-a partir de una secuencia original, la secuencia y el número de secuencias
-a generar son dos parámetros que se deben ingresar al programa.
-
 Variables:
 _rand_indexes_len
 _gaps_lengths_arr
@@ -17,33 +11,95 @@ _gaps_lengths_arr_range
 
 ---------------------------------------
 
-Se ingresa
-
----------------------------------------
-
 Mutador Simple de Secuencias (diagrama de flujo)
-- ( Inicio )
-- /Ingresa la secuencia/
- /Ingresa n número de secuencias a generar/
-- [Genera una lista de n copias de la secuencia ingresada]
-- [Selecciona una secuencia de la lista y la muta]
-- [Se guarda la secuencia mutada]
+( Inicio )
+
+/- Secuencia original (sin mutaciones)/
+/- Cantidad de secuencias a generar/
+
+- [Genera una lista de "n" copias de la secuencia original]
+- [Selecciona una secuencia de la lista]
+- (proceso de mutación)
+- [La secuencia muta]
+
 - /Se han mutado todas las secuencias?\
     - No
-        - [ Seleccionar la siguiente secuencia ]
-        - [ Volver a: se selecciona una secuencia y se muta ]
+        [Selecciona una secuencia de la lista y la muta]
     - Sí
-- [Retorna la lista de secuencias mutadas]
-- ( Fin )
+        [Retorna la lista de las secuencias mutadas]
+
+( Fin )
 
 ---------------------------------------
 
-Mutador Simple de Secuencias (diagrama de flujo)
-- ( Inicio )
-- /Ingresa la secuencia/
- /Ingresa n número de secuencias a generar/
-- genera n secuencias mutadas utilizando el mutador simple
+* Algoritmo Genético *
+Mutador Cruce de Secuencias
 
-- ( Fin )
+( Inicio )
+
+/- Ingresa la secuencia del virus del VIH del simio/
+/- Ingresa la cantidad de secuencias a generar/
+
+- [Genera una lista de "n" secuencias mutadas]
+- (Proceso de mutación utilizando el MSS)
+
+- /¿La cantidad de secuencias a generar es par?\
+    - No
+        [Se empareja la última secuencia con la primera secuencia]
+    - Sí
+        [Selecciona el primer par de secuencias de la lista]
+
+- [Selecciona el primer par de secuencias de la lista]
+
+- /¿Se han recorrido todas las secuencias?\
+    - No
+        [Selecciona el siguiente par de secuencias de la lista]
+        [Realiza el cruzamiento de genes entre las dos secuencias]
+        (Proceso de cruzamiento de genes)
+        [Se agregar las secuencias generadas a la una nueva lista de secuencias] ***
+    - Sí
+        [Retorna la lista con las secuencias generadas]
+
+( Fin )
 
 ---------------------------------------
+
+* Algoritmo de Reacciones Químicas *
+Mutador de Reacciones Químicas
+
+( Inicio )
+
+/- Ingresa la secuencia del virus del VIH del simio/
+/- Ingresa la secuencia del virus del VIH del homo sapiens/
+/- Ingresa la cantidad de secuencias a generar/
+/- Ingresa la cantidad colisiones a realizar/
+
+- [Genera una lista de "n" secuencias mutadas]
+- (Proceso de mutación utilizando el MSS)
+
+- [Selecciona dos secuencias de la lista de manera aleatoria]
+- [Selecciona el tipo de reacción química a realizar]
+- (Proceso de reacción química)
+- /¿Se han realizado todas las colisiones?\
+    - No
+        [Selecciona dos secuencias de la lista de manera aleatoria]
+        [Selecciona el tipo de reacción química a realizar]
+        (Proceso de reacción química)
+    - Sí
+        - []
+
+( Fin )
+
+---------------------------------------
+
+* Algoritmo de Recocido Simulado *
+Mutador de Simulated Annealing
+
+( Inicio )
+
+/- Ingresa la secuencia del virus del VIH del simio/
+/- Ingresa la secuencia del virus del VIH del homo sapiens/
+/- Ingresa los parametros (cooling_rate, ...)
+- ...
+
+( Fin )
