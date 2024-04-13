@@ -44,22 +44,21 @@ class CrosserMutator:
         seq1_cp1, seq1_cp2 = cls._generate_seq_cross_points(cross_point)
         seq2_cp1, seq2_cp2 = cls._generate_seq_cross_points(-cross_point)
 
-        new_seq1_genes_arr = cls._generate_new_seq_arr(
-            cls._seq1, cls._seq2, seq1_cp1, seq1_cp2
-        )
-        new_seq2_genes_arr = cls._generate_new_seq_arr(
-            cls._seq2, cls._seq1, seq2_cp2, seq2_cp1
-        )
+        new_seq1_genes_arr = cls._generate_new_seq_arr(cls._seq1, cls._seq2, seq1_cp1, seq1_cp2)
+        new_seq2_genes_arr = cls._generate_new_seq_arr(cls._seq2, cls._seq1, seq2_cp2, seq2_cp1)
 
         cls._seq1.genes_as_arr = new_seq1_genes_arr
         cls._seq2.genes_as_arr = new_seq2_genes_arr
 
     @classmethod
+    def _generate_new_seq_arr(cls, seq1: Sequence, seq2: Sequence,
+                              seq_cp1: int, seq_cp2: int) -> np.ndarray:
+        return np.concatenate(
+            (seq1.genes_as_arr[:seq_cp1],
+             seq2.genes_as_arr[seq_cp2:])
+        )
+
+    @classmethod
     def _generate_seq_cross_points(cls, cross_point: int) -> tuple[int, int]:
         return (int(cls._seq1.get_indexes_of_genes()[cross_point]),
                 int(cls._seq2.get_indexes_of_genes()[cross_point]))
-
-    @classmethod
-    def _generate_new_seq_arr(cls, seq1: Sequence, seq2: Sequence,
-                              seq_cp1: int, seq_cp2: int) -> np.ndarray:
-        return np.concatenate((seq1.genes_as_arr[:seq_cp1], seq2.genes_as_arr[seq_cp2:]))

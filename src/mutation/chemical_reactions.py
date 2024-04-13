@@ -67,20 +67,20 @@ class ChemicalReactionsMutator:
     @classmethod
     def _do_collision(cls, seqs: list[Sequence], collision_type: int) -> None:
         collisions: list[Callable] = [
-            cls._do_ineffective_collision_against_the_wall,
-            cls._do_decomposition,
-            cls._do_ineffective_intermolecular_collision,
-            cls._do_synthesis
+            cls._do_collision_type0,
+            cls._do_collision_type1,
+            cls._do_collision_type2,
+            cls._do_collision_type3
         ]
         collisions[collision_type](seqs)
 
     @classmethod
-    def _do_ineffective_collision_against_the_wall(cls, seqs: list[Sequence]) -> None:
+    def _do_collision_type0(cls, seqs: list[Sequence]) -> None:
         _, cls._buffer = cls.ineffective_collision_against_the_wall(cls._seq_to_compare,
                                                                     cls._seq1, cls._buffer)
 
     @classmethod
-    def _do_decomposition(cls, seqs: list[Sequence]) -> None:
+    def _do_collision_type1(cls, seqs: list[Sequence]) -> None:
         new_seq1, new_seq2, success, cls._buffer = cls \
             .decomposition(cls._seq_to_compare, cls._seq1, cls._buffer)
         if success:
@@ -89,11 +89,11 @@ class ChemicalReactionsMutator:
             seqs.append(new_seq2)
 
     @classmethod
-    def _do_ineffective_intermolecular_collision(cls, seqs: list[Sequence]) -> None:
+    def _do_collision_type2(cls, seqs: list[Sequence]) -> None:
         _, _ = cls.ineffective_intermolecular_collision(cls._seq_to_compare, cls._seq1, cls._seq2)
 
     @classmethod
-    def _do_synthesis(cls, seqs: list[Sequence]) -> None:
+    def _do_collision_type3(cls, seqs: list[Sequence]) -> None:
         generated_seq, success = cls.synthesis(cls._seq_to_compare, cls._seq1, cls._seq2)
         if success:
             seqs.remove(cls._seq1)

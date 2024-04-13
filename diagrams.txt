@@ -28,7 +28,7 @@ Mutador Simple de Secuencias (diagrama de flujo)
     - Sí
         [Retorna la lista de las secuencias mutadas]
 
-( Fin )
+- ( Fin )
 
 ---------------------------------------
 
@@ -40,66 +40,17 @@ Mutador Cruce de Secuencias
 /- Ingresa la secuencia del virus del VIH del simio/
 /- Ingresa la cantidad de secuencias a generar/
 
-- [Genera una lista de "n" secuencias mutadas]
 - (Proceso de mutación utilizando el MSS)
+- [Genera una lista de "n" secuencias mutadas]
+- (proceso de mutación)
+- [La secuencia muta]
 
-- /¿La cantidad de secuencias a generar es par?\
+- /Se han mutado todas las secuencias?\
     - No
-        [Se empareja la última secuencia con la primera secuencia]
+        [Selecciona una secuencia de la lista y la muta]
     - Sí
-        [Selecciona el primer par de secuencias de la lista]
+        [Retorna la lista de las secuencias mutadas]
 
-- [Selecciona el primer par de secuencias de la lista]
-
-- /¿Se han recorrido todas las secuencias?\
-    - No
-        [Selecciona el siguiente par de secuencias de la lista]
-        [Realiza el cruzamiento de genes entre las dos secuencias]
-        (Proceso de cruzamiento de genes)
-        [Se agregar las secuencias generadas a la una nueva lista de secuencias] ***
-    - Sí
-        [Retorna la lista con las secuencias generadas]
-
-( Fin )
+- ( Fin )
 
 ---------------------------------------
-
-* Algoritmo de Reacciones Químicas *
-Mutador de Reacciones Químicas
-
-( Inicio )
-
-/- Ingresa la secuencia del virus del VIH del simio/
-/- Ingresa la secuencia del virus del VIH del homo sapiens/
-/- Ingresa la cantidad de secuencias a generar/
-/- Ingresa la cantidad colisiones a realizar/
-
-- [Genera una lista de "n" secuencias mutadas]
-- (Proceso de mutación utilizando el MSS)
-
-- [Selecciona dos secuencias de la lista de manera aleatoria]
-- [Selecciona el tipo de reacción química a realizar]
-- (Proceso de reacción química)
-- /¿Se han realizado todas las colisiones?\
-    - No
-        [Selecciona dos secuencias de la lista de manera aleatoria]
-        [Selecciona el tipo de reacción química a realizar]
-        (Proceso de reacción química)
-    - Sí
-        - []
-
-( Fin )
-
----------------------------------------
-
-* Algoritmo de Recocido Simulado *
-Mutador de Simulated Annealing
-
-( Inicio )
-
-/- Ingresa la secuencia del virus del VIH del simio/
-/- Ingresa la secuencia del virus del VIH del homo sapiens/
-/- Ingresa los parametros (cooling_rate, ...)
-- ...
-
-( Fin )
