@@ -1,0 +1,109 @@
+<mxfile host="app.diagrams.net" modified="2024-04-15T21:07:20.556Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 Edg/123.0.0.0" etag="ryLubhqUtCLrNj_ZA7yN" version="24.2.5" type="device">
+  <diagram name="Page-1" id="bR6pzGXzQ4tVox6fEBz0">
+    <mxGraphModel dx="786" dy="459" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="6Gvw15Bcua0NvGJzo-vV-63" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Times New Roman;fontSize=11;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="631.1699999999998" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RW9tVlY7NCJbLOYiDFET-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Times New Roman;fontSize=11;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="680" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ccNJIbu-kGH7p9ZOHVRw-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Times New Roman;fontSize=11;" parent="1" source="ccNJIbu-kGH7p9ZOHVRw-41" target="ccNJIbu-kGH7p9ZOHVRw-44" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ccNJIbu-kGH7p9ZOHVRw-41" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;Inicio&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="243.5" y="370" width="85" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ccNJIbu-kGH7p9ZOHVRw-42" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;Fin&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="451" y="691" width="85" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ccNJIbu-kGH7p9ZOHVRw-44" target="ccNJIbu-kGH7p9ZOHVRw-48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ccNJIbu-kGH7p9ZOHVRw-44" value="&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;span style=&quot;background-color: initial; font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Ingresa la secuencia del&lt;br style=&quot;font-size: 11px;&quot;&gt;&amp;nbsp;virus del VIH del simio&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;align=center;fontFamily=Times New Roman;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="356.5" y="370" width="137" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ccNJIbu-kGH7p9ZOHVRw-46" target="ccNJIbu-kGH7p9ZOHVRw-63">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ccNJIbu-kGH7p9ZOHVRw-46" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;Genera una lista de &quot;n&quot; secuencias mutadas con el genoma del VIH del simio&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="187" y="447" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ccNJIbu-kGH7p9ZOHVRw-48" target="vsr8aQXP9z4c172drK0U-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ccNJIbu-kGH7p9ZOHVRw-48" value="&lt;div style=&quot;font-size: 11px;&quot;&gt;Ingresa la secuencia del virus del VIH del homo sapiens&lt;/div&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;align=center;fontFamily=Times New Roman;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="517.5" y="370" width="146" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="ccNJIbu-kGH7p9ZOHVRw-51" target="vsr8aQXP9z4c172drK0U-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ccNJIbu-kGH7p9ZOHVRw-51" target="ccNJIbu-kGH7p9ZOHVRw-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ccNJIbu-kGH7p9ZOHVRw-51" value="¿Se han realizado todas las colisiones?" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="453.5" y="576" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ccNJIbu-kGH7p9ZOHVRw-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Times New Roman;fontSize=11;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="680" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ccNJIbu-kGH7p9ZOHVRw-60" value="no" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Times New Roman;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="413.5" y="593" width="63" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ccNJIbu-kGH7p9ZOHVRw-61" value="si" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Times New Roman;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="455.5" y="645" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ccNJIbu-kGH7p9ZOHVRw-63" target="vsr8aQXP9z4c172drK0U-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ccNJIbu-kGH7p9ZOHVRw-63" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=11;fontFamily=Times New Roman;" parent="1" vertex="1">
+          <mxGeometry x="277" y="522" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ccNJIbu-kGH7p9ZOHVRw-64" value="Proceso de mutación utilizando el MSS" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Times New Roman;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="242" y="565" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="vsr8aQXP9z4c172drK0U-2" target="vsr8aQXP9z4c172drK0U-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-2" value="&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Ingresa la cantidad&lt;br style=&quot;font-size: 11px;&quot;&gt;&amp;nbsp;de secuencias a generar&lt;/font&gt;&lt;/div&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;align=center;fontFamily=Times New Roman;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="522" y="447" width="137" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="vsr8aQXP9z4c172drK0U-3" target="ccNJIbu-kGH7p9ZOHVRw-46">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-3" value="&lt;div style=&quot;font-size: 11px;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Ingresa la cantidad&lt;br style=&quot;font-size: 11px;&quot;&gt;&amp;nbsp;de colisiones a realizar&lt;/font&gt;&lt;/div&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;align=center;fontFamily=Times New Roman;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="356.5" y="447" width="137" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="vsr8aQXP9z4c172drK0U-8" target="vsr8aQXP9z4c172drK0U-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-8" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;Selecciona dos secuencias de la lista de manera aleatoria&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="356.5" y="522" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="vsr8aQXP9z4c172drK0U-9" target="vsr8aQXP9z4c172drK0U-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-9" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;Selecciona el tipo de reacción química a realizar de manera aleatoria&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="525.5" y="522" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="vsr8aQXP9z4c172drK0U-18" target="ccNJIbu-kGH7p9ZOHVRw-51">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-18" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=11;fontFamily=Times New Roman;" vertex="1" parent="1">
+          <mxGeometry x="570.5" y="596" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="vsr8aQXP9z4c172drK0U-19" value="Proceso de Reacción Química" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Times New Roman;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="544" y="637" width="93" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

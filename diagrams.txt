@@ -71,7 +71,7 @@ Mutador de Reacciones Químicas
 /- Ingresa la secuencia del virus del VIH del simio/
 /- Ingresa la secuencia del virus del VIH del Homo sapiens/
 /- Ingresa la cantidad de secuencias a generar/
-/- Ingresa la cantidad colisiones a realizar/
+/- Ingresa la cantidad de colisiones a realizar/
 
 - [Genera una lista de "n" secuencias mutadas]
 - (Proceso de mutación utilizando el MSS)
@@ -93,12 +93,24 @@ Mutador de Reacciones Químicas
 
 * Algoritmo de Recocido Simulado *
 Mutador de Simulated Annealing
+* star indicate optional
 
 ( Inicio )
 
 /- Ingresa la secuencia del virus del VIH del simio/
 /- Ingresa la secuencia del virus del VIH del Homo sapiens/
-/- Ingresa los parametros (cooling_rate, ...)
-- ...
-
+*/- Ingresa los parámetros (cooling_rate, ...)
+    * temperatura maxima
+    * temperatura final
+    * ratio de enfriamiento
+    * criterio de metropolis
+*/- Se asignan los valores por defecto de los parámetros/
+- [Se asigna la temperatura como la temperatura maxima]
+- /[¿La temperatura actual es mayor a la temperatura final?]\
+    - No
+        [ ]
+        [Selecciona el tipo de reacción química a realizar]
+        (Proceso de reacción química)
+    - Sí
+        - []
 ( Fin )
