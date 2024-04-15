@@ -56,7 +56,6 @@ Mutador Cruce de Secuencias
         [Selecciona el siguiente par de secuencias de la lista]
         [Realiza el cruzamiento de genes entre las dos secuencias]
         (Proceso de cruzamiento de genes)
-        [Se agregar las secuencias generadas a la una nueva lista de secuencias] ***
     - Sí
         [Retorna la lista con las secuencias generadas]
 
@@ -70,7 +69,7 @@ Mutador de Reacciones Químicas
 ( Inicio )
 
 /- Ingresa la secuencia del virus del VIH del simio/
-/- Ingresa la secuencia del virus del VIH del homo sapiens/
+/- Ingresa la secuencia del virus del VIH del Homo sapiens/
 /- Ingresa la cantidad de secuencias a generar/
 /- Ingresa la cantidad colisiones a realizar/
 
@@ -98,7 +97,7 @@ Mutador de Simulated Annealing
 ( Inicio )
 
 /- Ingresa la secuencia del virus del VIH del simio/
-/- Ingresa la secuencia del virus del VIH del homo sapiens/
+/- Ingresa la secuencia del virus del VIH del Homo sapiens/
 /- Ingresa los parametros (cooling_rate, ...)
 - ...
 
