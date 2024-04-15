@@ -1,10 +1,9 @@
 from mutation.chemical_reactions import ChemicalReactionsMutator as CRMutator
 from mutation.crosser_mutator import CrosserMutator
 from mutation.simple_mutator import SimpleMutator
-from mutation.simulated_annealing import SimulatedAnnealing
 from utils.metrics import SeqsSimilarity
 from utils.seq import Sequence
-from utils.seqs_manager import SeqLoader, SeqsSaver
+from utils.seqs_manager import SeqLoader
 
 seq1: Sequence = SeqLoader.load("./sequences/env_HIV1H.txt")
 seq2: Sequence = SeqLoader.load("./sequences/env_HIV1S.txt")
@@ -36,9 +35,9 @@ for i in range(populations):
     seq2_cm_seqs: list[Sequence] = CrosserMutator.generate_mutated_seqs(seq2_sm_seqs)
     SeqsSimilarity.compute(seq1, seq2_cm_seqs)
 
-    # for sm_seq, bcm_seq in zip(seq2_sm_seqs, seq2_cm_seqs):
-    #     print(bcm_seq.seq_id, bcm_seq.get_genes_without_mutations(),
-    #           bcm_seq.similarity, sm_seq.genes, bcm_seq.genes)
+    # for sm_seq, cm_seq in zip(seq2_sm_seqs, seq2_cm_seqs):
+    #     print(cm_seq.seq_id, cm_seq.get_genes_without_mutations(),
+    #           cm_seq.similarity, sm_seq.genes, cm_seq.genes)
 
 ################################################################
 
@@ -61,6 +60,6 @@ for i in range(populations):
 
 ################################################################
 
-best_seq: Sequence = SimulatedAnnealing.run(seq1, seq2)
-SeqsSaver.save(seq1, seq2)
+# best_seq: Sequence = SimulatedAnnealing.run(seq1, seq2)
+# SeqsSaver.save(seq1, seq2)
 # print(best_seq)

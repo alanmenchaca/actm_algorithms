@@ -3,7 +3,7 @@ from typing import Callable, ClassVar
 
 import numpy as np
 
-from mutation.crosser_mutator import CrosserMutator as BCMutator
+from mutation.crosser_mutator import CrosserMutator as CMutator
 from mutation.simple_mutator import SimpleMutator
 from utils.metrics import SeqsSimilarity
 from utils.seq import Sequence, Molecule
@@ -304,7 +304,7 @@ class ChemicalReactionsMutator:
         seq1_prime: Sequence = seq1.__copy__()
         seq2_prime: Sequence = seq2.__copy__()
 
-        seq_prime, _ = BCMutator.generate_mutated_seqs([seq1_prime, seq2_prime])
+        seq_prime, _ = CMutator.generate_mutated_seqs([seq1_prime, seq2_prime])
 
         # Calculate PE_w'
         pe_prime: float = cls._compute_potential_energy(seq_to_compare, seq_prime)
