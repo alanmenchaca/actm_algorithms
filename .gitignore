@@ -4,6 +4,6 @@ __pycache__/
 
 .idea/*
 
-~*.tmp
-~*.doc*
-~*.ppt*
+[~]*.tmp
+[~]*.doc*
+[~]*.ppt*
