@@ -17,7 +17,7 @@ seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
 seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
 
 # num_sequences_list: list[int] = [10, 20, 30, 40, 50]
-num_sequences_list: list[int] = [200, 500, 1000, 2000, 3000, 4000]
+num_sequences_list: list[int] = [200, 300, 400, 500, 600, 700, 800]
 num_collisions: int = 100
 total_sequences: int = 0
 
