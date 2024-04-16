@@ -17,7 +17,7 @@ seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
 seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
 
 # num_sequences_list: list[int] = [10, 20, 30, 40, 50]
-num_sequences_list: list[int] = [200, 300, 400, 500, 600, 700, 800]
+num_sequences_list: list[int] = [200, 500, 1000, 2000, 3000, 4000]
 num_collisions: int = 100
 total_sequences: int = 0
 
@@ -32,15 +32,21 @@ for idx, num_seqs in enumerate(num_sequences_list):
     SeqsSimilarity.compute(seq1, seq2_sm_seqs)
     sm_best_similarities.append(seq2_sm_seqs[0].similarity)
 
+    print(seq2_sm_seqs[0].seq_id, seq2_sm_seqs[0].similarity)
+
     seq2_cm_seqs: list[Sequence] = CrosserMutator.generate_mutated_seqs(seq2_sm_seqs)
     SeqsSimilarity.compute(seq1, seq2_cm_seqs)
     cm_best_similarities.append(seq2_cm_seqs[0].similarity)
+
+    print(seq2_cm_seqs[0].seq_id, seq2_cm_seqs[0].similarity)
 
     # a copy of seq2_sm_seqs is passed to avoid modifying the original list
     seq2_sm_seqs_copy: list[Sequence] = seq2_sm_seqs.copy()
     CRMutator.collide_molecules(seq1, seq2_sm_seqs_copy, 10)
     SeqsSimilarity.compute(seq1, seq2_sm_seqs_copy)
     cr_best_similarities.append(seq2_sm_seqs_copy[0].similarity)
+
+    print(seq2_sm_seqs_copy[0].seq_id, seq2_sm_seqs_copy[0].similarity)
 
     best_seq: Sequence = SimulatedAnnealing.run(seq1.__copy__(), seq2.__copy__())
     sa_best_similarities.append(best_seq.similarity)
@@ -76,46 +82,44 @@ y_ticks = np.arange(min_nearest_multiple, (max_nearest_multiple + 100), 100)
 
 # ################################################################################
 
+plt.figure(figsize=(7, 5))
+font_size = 10
+
 with plt.style.context(['science', 'ieee', 'grid']):
-    plt.figure()
-    plt.suptitle('Secuencias con mejor Similaridad en cada Mutador', fontsize=7)
-    plt.title(f'Secuencias Totales: {total_sequences}', fontsize=7)
+    plt.suptitle('Secuencias con mejor Grado de Similaridad en cada Mutador', fontsize=12)
+    plt.title(f'Secuencias Totales: {total_sequences}', fontsize=12)
 
     plt.boxplot([sm_best_similarities, cm_best_similarities,
                  cr_best_similarities, sa_best_similarities],
                 labels=['MSS', 'MSS + MCS', 'MSS + MRQ', 'MSS + RS'])
 
-    plt.xticks(fontsize=6)
-    plt.yticks(y_ticks, fontsize=6)
+    plt.xticks(fontsize=font_size)
+    plt.yticks(fontsize=font_size)
 
-    plt.xlabel('Mutadores de secuencias', fontsize=7)
-    plt.ylabel('similaridad', fontsize=7)
+    plt.xlabel('Mutadores de Secuencias', fontsize=font_size)
+    plt.ylabel('similaridad', fontsize=font_size)
 
     plt.show()
 
 # ################################################################################
 
+plt.figure(figsize=(7, 5))
+font_size = 10
+
 with plt.style.context(['science', 'ieee', 'grid']):
-    plt.figure()
-    plt.suptitle('Secuencias con mejor similaridad en cada Mutador', fontsize=7)
-    plt.title(f'Secuencias Totales: {total_sequences}', fontsize=7)
+    plt.suptitle('Secuencias con mejor similaridad en cada Mutador', fontsize=12)
+    plt.title(f'Secuencias Totales: {total_sequences}', fontsize=12)
 
     plt.plot(num_sequences_list, sm_best_similarities, linestyle='dashed')
     plt.plot(num_sequences_list, cm_best_similarities, linestyle='dashdot')
     plt.plot(num_sequences_list, cr_best_similarities, linestyle='dashed')
     plt.plot(num_sequences_list, sa_best_similarities, linestyle='dashdot')
 
-    plt.xticks(num_sequences_list, fontsize=6)
-    plt.yticks(y_ticks, fontsize=6)
+    plt.xticks(num_sequences_list, fontsize=font_size)
+    plt.yticks(fontsize=font_size)
 
-    plt.xlabel('Número de Secuencias', fontsize=7)
-    plt.ylabel('similaridad', fontsize=7)
+    plt.xlabel('Número de Secuencias', fontsize=font_size)
+    plt.ylabel('similaridad', fontsize=font_size)
 
     plt.legend(['MSS', 'MSS + MCS', 'MSS + MRQ', 'RS'], fontsize=5)
     plt.show()
-
-# TODO: graph the following combinations of mutation:
-#   * crosser mutator + chemical reactions mutator
-#   * simulated annealing + crosser mutator
-#   * simulated annealing + chemical reactions mutator
-#   * simulated annealing + crosser mutator + chemical reactions mutator
