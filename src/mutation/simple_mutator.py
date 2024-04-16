@@ -44,12 +44,14 @@ class SimpleMutator:
 
     @classmethod
     def _init_rand_indexes_len(cls) -> None:
-        low, high = cls._rand_indexes_len_range if cls._rand_indexes_len_range else (1, 6)
+        # default range: [3, 6]
+        low, high = cls._rand_indexes_len_range if cls._rand_indexes_len_range else (3, 6)
         cls._rand_indexes_len = np.random.randint(low, high + 1)
 
     @classmethod
     def _init_gaps_lengths_arr(cls) -> None:
-        low, high = cls._gaps_lengths_arr_range if cls._gaps_lengths_arr_range else (1, 4)
+        # default range: [3, 6]
+        low, high = cls._gaps_lengths_arr_range if cls._gaps_lengths_arr_range else (3, 7)
         cls._gaps_lengths_arr = np.random.randint(low, high + 1, cls._rand_indexes_len)
 
     @classmethod

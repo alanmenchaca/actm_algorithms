@@ -17,7 +17,7 @@ import scienceplots
 seq1: Sequence = SeqLoader.load("../src/sequences/env_HIV1H.txt")
 seq2: Sequence = SeqLoader.load("../src/sequences/env_HIV1S.txt")
 
-num_seqs: int = 10000
+num_seqs: int = 10_000
 best_similarities_grid: list[list[int]] = []
 
 gaps_len_range_list: list[tuple[int, int]] = [
@@ -51,26 +51,30 @@ print(f'Elapsed time: {elapsed_time_minutes} min')
 
 # ################################################################################
 
+
 plt.figure(figsize=(7, 5))
-plt.suptitle('secuencias mutadas de env_HIV1H y env_HIV1S con mejor similaridad', fontsize=14)
-plt.title(f'{num_seqs * 2} secuencias por cada par de parámetros seleccionados', fontsize=13)
+font_size = 10
 
-plt.imshow(best_similarities_grid, cmap='viridis', interpolation='nearest')
-plt.rcParams['font.size'] = 10
+with plt.style.context(['science', 'ieee']):
+    plt.rcParams['font.size'] = font_size
 
-for i in range(len(gaps_len_range_list)):
-    for j in range(len(rand_indexes_len_range_list)):
-        plt.text(j, i, str(round(best_similarities_grid[i][j], 2)),
-                 ha='center', va='center', color='w')
+    plt.title(f'{num_seqs} secuencias mutadas por cada par de parámetros seleccionados', fontsize=12)
+    plt.suptitle('Secuencias Mutadas del Virus del VIH del Simio con Mejor Grado de Similitud', fontsize=12)
+    plt.imshow(best_similarities_grid, cmap='viridis', interpolation='nearest')
 
-plt.xticks(range(len(rand_indexes_len_range_list)), rand_indexes_len_range_list)
-plt.yticks(range(len(gaps_len_range_list)), gaps_len_range_list)
+    for i in range(len(gaps_len_range_list)):
+        for j in range(len(rand_indexes_len_range_list)):
+            plt.text(j, i, str(round(best_similarities_grid[i][j], 2)),
+                     ha='center', va='center', color='w')
 
-plt.xlabel('rango de indices aleatorios')
-plt.ylabel('rango de gaps por indice aleatorio')
+    plt.xticks(range(len(rand_indexes_len_range_list)), rand_indexes_len_range_list, fontsize=font_size)
+    plt.yticks(range(len(gaps_len_range_list)), gaps_len_range_list, fontsize=font_size)
 
-cbar = plt.colorbar()
-cbar.ax.tick_params(labelsize=10)
-cbar.set_label('similaridad', size=10)
+    plt.xlabel('intervalo de indices aleatorios', fontsize=font_size)
+    plt.ylabel('intervalo de gaps por indice aleatorio', fontsize=font_size)
 
-plt.show()
+    cbar = plt.colorbar()
+    cbar.ax.tick_params(labelsize=font_size)  # colorbar tick label size
+    cbar.set_label('similaridad', size=font_size)  # bar label
+
+    plt.show()
