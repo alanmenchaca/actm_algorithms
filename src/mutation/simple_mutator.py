@@ -44,8 +44,8 @@ class SimpleMutator:
 
     @classmethod
     def _init_rand_indexes_len(cls) -> None:
-        # default range: [3, 6]
-        low, high = cls._rand_indexes_len_range if cls._rand_indexes_len_range else (3, 6)
+        # default range: [1, 4]
+        low, high = cls._rand_indexes_len_range if cls._rand_indexes_len_range else (1, 4)
         cls._rand_indexes_len = np.random.randint(low, high + 1)
 
     @classmethod
